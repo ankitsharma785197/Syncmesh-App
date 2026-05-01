@@ -26,8 +26,8 @@ import com.ankit.syncmesh.sync.SyncForegroundService;
 import com.ankit.syncmesh.util.NetworkUtils;
 import com.ankit.syncmesh.util.PermissionHelper;
 
-import dev.patrickgold.florisboard.FlorisImeService;
-import dev.patrickgold.florisboard.app.FlorisAppActivity;
+import helium314.keyboard.latin.LatinIME;
+import helium314.keyboard.settings.SettingsActivity;
 
 public class HomeFragment extends Fragment {
     private static final int RC_NOTIFICATIONS = 501;
@@ -111,9 +111,9 @@ public class HomeFragment extends Fragment {
             return;
         }
         boolean keyboardEnabled = NetworkUtils.isInputMethodEnabled(
-                requireContext(), FlorisImeService.class);
+                requireContext(), LatinIME.class);
         boolean keyboardSelected = keyboardEnabled && NetworkUtils.isInputMethodSelected(
-                requireContext(), FlorisImeService.class);
+                requireContext(), LatinIME.class);
         binding.textKeyboardStatus.setText(keyboardEnabled
                 ? (keyboardSelected ? getString(R.string.label_selected) : getString(R.string.label_enabled))
                 : getString(R.string.label_not_enabled));
@@ -162,7 +162,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void openKeyboardSettings() {
-        startActivity(new Intent(requireContext(), FlorisAppActivity.class));
+        startActivity(new Intent(requireContext(), SettingsActivity.class));
     }
 
     private void startSyncService() {

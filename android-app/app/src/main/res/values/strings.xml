@@ -55,7 +55,7 @@
     <string name="home_service_stopped_detail">Start sync to listen on port 8989, announce nearby discovery, and receive clipboard updates.</string>
     <string name="home_keyboard_title">Keyboard Add-on</string>
     <string name="home_keyboard_summary">Optional add-on keyboard for manual Send Clipboard and Paste Remote actions while typing. Android 10+ restricts background clipboard reads.</string>
-    <string name="label_florisboard_based">FlorisBoard Based</string>
+    <string name="label_florisboard_based">HeliBoard Based</string>
     <string name="pair_title">Pair devices</string>
     <string name="pair_subtitle">Manual IP pairing, QR handoff, and nearby discovery all work on the same network.</string>
     <string name="pair_my_device_title">My device</string>
