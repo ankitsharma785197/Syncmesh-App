@@ -13,9 +13,9 @@ Sync your Android, Windows, and macOS devices over local WiFi — **no cloud req
 
 | Platform   | File                          | Download                                                                                                   |
 | ---------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| 🤖 Android | `syncmesh-android-v1.0.0.apk` | [Download](https://github.com/ankitsharma785197/Syncmesh/releases/download/v1.0.0/syncmesh-android-v1.0.0.apk) |
-| 🍎 macOS   | `syncmesh-mac-v1.0.0.dmg`     | [Download](https://github.com/ankitsharma785197/Syncmesh/releases/download/v1.0.0/syncmesh-mac-v1.0.0.dmg)     |
-| 🪟 Windows | `syncmesh-windows-v1.0.0.exe` | [Download](https://github.com/ankitsharma785197/Syncmesh/releases/download/v1.0.0/syncmesh-windows-v1.0.0.exe) |
+| 🤖 Android | `syncmesh-android-v1.0.0.apk` | [Download](https://github.com/ankitsharma785197/Syncmesh-App/releases/download/v1.0.0/syncmesh-android-v1.0.0.apk) |
+| 🍎 macOS   | `syncmesh-mac-v1.0.0.dmg`     | [Download](https://github.com/ankitsharma785197/Syncmesh-App/releases/download/v1.0.0/syncmesh-mac-v1.0.0.dmg)     |
+| 🪟 Windows | `syncmesh-windows-v1.0.0.exe` | [Download](https://github.com/ankitsharma785197/Syncmesh-App/releases/download/v1.0.0/syncmesh-windows-v1.0.0.exe) |
 
 ---
 
@@ -78,7 +78,7 @@ Sync your Android, Windows, and macOS devices over local WiFi — **no cloud req
 * Initial sync engine
 * Basic pairing
 
-👉 [View all releases](https://github.com/ankitsharma785197/Syncmesh/releases)
+👉 [View all releases](https://github.com/ankitsharma785197/Syncmesh-App/releases)
 
 ---
 
