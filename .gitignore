@@ -1,0 +1,22 @@
+cat > .gitignore << 'EOF'
+# Android
+*.apk
+*.aab
+*.jks
+*.keystore
+local.properties
+.gradle/
+build/
+*/build/
+
+# Electron
+node_modules/
+dist/
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+*.iml
+EOF
