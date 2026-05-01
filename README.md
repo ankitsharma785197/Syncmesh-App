@@ -1,6 +1,6 @@
 # 🧩 SyncMesh-App
 
-**Offline Device Sync for Clipboard & More**
+**Offline Device Sync for Clipboard & More**  
 Sync your Android, Windows, and macOS devices over local WiFi — **no cloud required**.
 
 ---
@@ -11,20 +11,20 @@ Sync your Android, Windows, and macOS devices over local WiFi — **no cloud req
 
 #### 📥 Downloads
 
-| Platform   | File                          | Download                                                                                                   |
-| ---------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| 🤖 Android | `syncmesh-android-v1.0.0.apk` | [Download](https://github.com/ankitsharma785197/Syncmesh-App/releases/download/v1.0.0/syncmesh-android-v1.0.0.apk) |
-| 🍎 macOS   | `syncmesh-mac-v1.0.0.dmg`     | [Download](https://github.com/ankitsharma785197/Syncmesh-App/releases/download/v1.0.0/syncmesh-mac-v1.0.0.dmg)     |
-| 🪟 Windows | `syncmesh-windows-v1.0.0.exe` | [Download](https://github.com/ankitsharma785197/Syncmesh-App/releases/download/v1.0.0/syncmesh-windows-v1.0.0.exe) |
+| Platform   | File                          | Download |
+| ---------- | ----------------------------- | -------- |
+| 🤖 Android | `syncmesh-android-v1.0.0.apk` | https://github.com/ankitsharma785197/Syncmesh-App/releases/download/v1.0.0/syncmesh-android-v1.0.0.apk |
+| 🍎 macOS   | `syncmesh-mac-v1.0.0.dmg`     | https://github.com/ankitsharma785197/Syncmesh-App/releases/download/v1.0.0/syncmesh-mac-v1.0.0.dmg |
+| 🪟 Windows | `syncmesh-windows-v1.0.0.exe` | https://github.com/ankitsharma785197/Syncmesh-App/releases/download/v1.0.0/syncmesh-windows-v1.0.0.exe |
 
 ---
 
 ## 🆕 What's New
 
-* Clipboard sync between Android ↔ Desktop
-* Local pairing (IP, QR, WiFi)
-* Desktop app (Mac + Windows)
-* Clipboard history support
+- Clipboard sync between Android ↔ Desktop  
+- Local pairing (IP, QR, WiFi)  
+- Desktop app (Mac + Windows)  
+- Clipboard history support  
 
 ---
 
@@ -32,42 +32,42 @@ Sync your Android, Windows, and macOS devices over local WiFi — **no cloud req
 
 ### 1. Install
 
-* Install APK on Android
-* Install Desktop app on Mac/Windows
+- Install APK on Android  
+- Install Desktop app on Mac/Windows  
 
 ---
 
 ### 2. Connect Network
 
-* Same WiFi
-  OR
-* Same hotspot
+- Same WiFi  
+OR  
+- Same hotspot  
 
 ---
 
 ### 3. Pair Devices
 
-* QR Code
-* IP + Pairing Code
-* Nearby devices
+- QR Code  
+- IP + Pairing Code  
+- Nearby devices  
 
 ---
 
 ### 4. Enable Keyboard (IMPORTANT)
 
-👉 Required for clipboard sync
+👉 Required for clipboard sync  
 
-* Go to Android Settings
-* Enable **SyncMesh Keyboard**
-* Select it as default keyboard
+- Go to Android Settings  
+- Enable **SyncMesh Keyboard**  
+- Select it as default keyboard  
 
 ---
 
 ### 5. Start Sync
 
-* Open app
-* Tap **Start Sync**
-* Copy text → auto sync
+- Open app  
+- Tap **Start Sync**  
+- Copy text → auto sync  
 
 ---
 
@@ -75,41 +75,49 @@ Sync your Android, Windows, and macOS devices over local WiFi — **no cloud req
 
 ### v0.9.0 (Beta)
 
-* Initial sync engine
-* Basic pairing
+- Initial sync engine  
+- Basic pairing  
 
-👉 [View all releases](https://github.com/ankitsharma785197/Syncmesh-App/releases)
+👉 https://github.com/ankitsharma785197/Syncmesh-App/releases
 
 ---
 
 ## 🛠️ Tech Stack
 
-* Android (Java + XML)
-* Electron (Desktop App)
-* TCP + UDP networking
-* SQLite (local storage)
+- Android (Java + XML)  
+- Electron (Desktop App)  
+- TCP + UDP networking  
+- SQLite (local storage)  
 
 ---
 
 ## 🔒 Privacy
 
-SyncMesh works fully offline.
-No data is sent to any server.
+SyncMesh works fully offline.  
+No data is sent to any server.  
 
 ---
 
 ## 📜 License
 
-MIT License
+This project is licensed under the **MIT License**, with additional open-source components.
 
 ---
 
 ## 📜 Third-Party Licenses
 
-This project uses components from the following open-source projects:
+This project includes modified components from:
 
-### FlorisBoard
-- License: Apache License 2.0  
-- Source: https://github.com/florisboard/florisboard  
+### HeliBoard
+- License: GPL-3.0  
+- Additional: Apache-2.0, CC-BY-SA-4.0  
+- Source: https://github.com/Helium314/HeliBoard  
 
-This project includes modified portions of FlorisBoard for integration into SyncMesh.
+This project contains modified source code from HeliBoard.  
+All respective licenses are included in the repository.
+
+---
+
+## ⚠️ Note
+
+Due to GPL-3.0 components, the Android app source is provided in this repository as required by license.
