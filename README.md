@@ -112,4 +112,4 @@ This project uses components from the following open-source projects:
 - License: Apache License 2.0  
 - Source: https://github.com/florisboard/florisboard  
 
-Modifications may have been made for integration into SyncMesh.
+This project includes modified portions of FlorisBoard for integration into SyncMesh.
