@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SyncMesh Desktop</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">S</div>
+          <div>
+            <h1>SyncMesh</h1>
+            <p>Desktop</p>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <button class="nav-item active" data-view="home">Home</button>
+          <button class="nav-item" data-view="pair">Pair Device</button>
+          <button class="nav-item" data-view="devices">Paired Devices</button>
+          <button class="nav-item" data-view="history">Clipboard History</button>
+          <button class="nav-item" data-view="logs">Debug Logs</button>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Local WiFi/LAN sync</p>
+            <h2 id="viewTitle">Home Dashboard</h2>
+          </div>
+          <button id="syncToggle" class="primary-button">Start Sync</button>
+        </header>
+
+        <section id="home" class="view active">
+          <div class="stats-grid">
+            <article class="panel stat">
+              <span>Status</span>
+              <strong id="statusText">Stopped</strong>
+            </article>
+            <article class="panel stat">
+              <span>Current IP</span>
+              <strong id="ipAddress">-</strong>
+            </article>
+            <article class="panel stat">
+              <span>TCP Port</span>
+              <strong>8989</strong>
+            </article>
+            <article class="panel stat">
+              <span>Pairing Code</span>
+              <strong id="pairingCode">-</strong>
+            </article>
+          </div>
+
+          <div class="two-column">
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <h3>Clipboard Sync</h3>
+                  <p>Text copied on this desktop is sent to paired Android devices.</p>
+                </div>
+                <button id="sendClipboard" class="secondary-button">Send Current</button>
+              </div>
+              <div id="latestHistory" class="empty-state">No clipboard history yet.</div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <h3>Device Identity</h3>
+                  <p>This identity is advertised over UDP discovery.</p>
+                </div>
+              </div>
+              <form id="identityForm" class="inline-form">
+                <label>
+                  Device name
+                  <input id="deviceNameInput" type="text" placeholder="MacBook / Windows PC">
+                </label>
+                <button class="secondary-button" type="submit">Save</button>
+                <button id="regenCode" class="ghost-button" type="button">New Code</button>
+              </form>
+              <dl class="details">
+                <div>
+                  <dt>Device ID</dt>
+                  <dd id="deviceId">-</dd>
+                </div>
+                <div>
+                  <dt>Protocol</dt>
+                  <dd>JSON lines over TCP, UDP discovery</dd>
+                </div>
+              </dl>
+            </article>
+          </div>
+        </section>
+
+        <section id="pair" class="view">
+          <div class="two-column">
+            <article class="panel">
+              <div class="panel-header">
+                <div>
+                  <h3>Manual Pairing</h3>
+                  <p>Enter the Android device IP and pairing code from SyncMesh.</p>
+                </div>
+              </div>
+              <form id="manualPairForm" class="stack-form">
+                <label>
+                  Android IP address
+                  <input id="pairIp" type="text" placeholder="192.168.1.42" required>
+                </label>
+                <label>
+                  Port
+                  <input id="pairPort" type="number" value="8989" min="1" max="65535" required>
+                </label>
+                <label>
+                  Pairing code
+                  <input id="pairCode" type="text" placeholder="123456" required>
+                </label>
+                <button class="primary-button" type="submit">Pair Device</button>
+              </form>
+            </article>
+
+            <article class="panel qr-panel">
+              <div class="panel-header">
+                <div>
+                  <h3>Show My QR</h3>
+                  <p>Scan from Android if supported, or use the code below.</p>
+                </div>
+              </div>
+              <img id="qrImage" alt="SyncMesh pairing QR code">
+              <div class="code-box" id="qrPairingCode">-</div>
+            </article>
+          </div>
+
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Nearby Devices</h3>
+                <p>Devices announcing on UDP port 8990 appear here.</p>
+              </div>
+            </div>
+            <div id="nearbyList" class="list"></div>
+          </article>
+        </section>
+
+        <section id="devices" class="view">
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Paired Devices</h3>
+                <p>Clipboard updates are accepted only from this list.</p>
+              </div>
+            </div>
+            <div id="devicesList" class="list"></div>
+          </article>
+        </section>
+
+        <section id="history" class="view">
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Clipboard History</h3>
+                <p>Incoming and outgoing text events saved locally in SQLite.</p>
+              </div>
+            </div>
+            <div id="historyList" class="history-list"></div>
+          </article>
+        </section>
+
+        <section id="logs" class="view">
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Debug Logs</h3>
+                <p>Local service events and networking errors.</p>
+              </div>
+            </div>
+            <div id="logsList" class="logs-list"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>

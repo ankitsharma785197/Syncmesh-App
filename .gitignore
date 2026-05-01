@@ -12,6 +12,8 @@ build/
 # Electron
 node_modules/
 dist/
+desktop-app/node_modules/
+desktop-app/dist/
 
 # macOS
 .DS_Store

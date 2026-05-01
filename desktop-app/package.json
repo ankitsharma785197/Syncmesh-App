@@ -1,0 +1,67 @@
+{
+  "name": "syncmesh-desktop",
+  "productName": "SyncMesh Desktop",
+  "version": "1.0.0",
+  "description": "Offline clipboard sync between Android, Windows and macOS over local network.",
+  "main": "main.js",
+  "author": "SyncMesh",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac"
+  },
+  "dependencies": {
+    "electron-log": "^5.2.4",
+    "qrcode": "^1.5.4",
+    "sql.js": "^1.12.0",
+    "uuid": "^11.0.5"
+  },
+  "devDependencies": {
+    "electron": "^34.0.2",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.syncmesh.desktop",
+    "productName": "SyncMesh Desktop",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "renderer/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "category": "public.app-category.productivity"
+    }
+  }
+}
