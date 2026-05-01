@@ -98,21 +98,21 @@ No external servers are involved at any stage.
 
 ---
 
-## 📦 Project Structure
-Syncmesh-App/
-├── android-app/
-│ ├── app/
-│ ├── keyboard_heliboard/
-│ ├── lib/
-│ └── gradle configs
+# 📦 Project Structure
+
+
+Syncmesh-App
 │
-├── desktop-app/
-│ └── Electron source
+├── android-app
+│ ├── app # Main Android source
+│ ├── keyboard_heliboard # Keyboard engine (HeliBoard)
+│ ├── lib # Shared libraries
+│ └── gradle configs # Build system files
+│
+├── desktop-app # Electron-based desktop app
 │
 ├── README.md
 └── LICENSE
-
----
 
 ## 🔒 Privacy & Security
 
