@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="syncmesh_primary">#2563EB</color>
+    <color name="syncmesh_primary_container">#DBEAFE</color>
+    <color name="syncmesh_secondary">#14B8A6</color>
+    <color name="syncmesh_secondary_container">#CCFBF1</color>
+    <color name="syncmesh_success">#16A34A</color>
+    <color name="syncmesh_warning">#F59E0B</color>
+    <color name="syncmesh_error">#DC2626</color>
+    <color name="syncmesh_background">#F8FAFC</color>
+    <color name="syncmesh_surface">#FFFFFF</color>
+    <color name="syncmesh_surface_variant">#E2E8F0</color>
+    <color name="syncmesh_outline">#CBD5E1</color>
+    <color name="syncmesh_text">#0F172A</color>
+    <color name="syncmesh_text_secondary">#64748B</color>
+    <color name="syncmesh_text_inverse">#FFFFFF</color>
+    <color name="syncmesh_keyboard_surface">#0B1220</color>
+    <color name="syncmesh_keyboard_panel">#131D31</color>
+    <color name="syncmesh_keyboard_key">#1A263D</color>
+    <color name="syncmesh_keyboard_key_special">#22324A</color>
+    <color name="syncmesh_keyboard_border">#2F3D57</color>
+    <color name="syncmesh_keyboard_text">#F8FAFC</color>
+    <color name="syncmesh_keyboard_text_muted">#9FB0C9</color>
+</resources>

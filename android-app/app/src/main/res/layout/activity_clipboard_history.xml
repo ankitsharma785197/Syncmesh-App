@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app_background"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/syncmesh_surface"
+        android:navigationIcon="@android:drawable/ic_menu_close_clear_cancel"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        app:title="@string/history_activity_title"
+        app:titleTextColor="@color/syncmesh_text" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/history_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
