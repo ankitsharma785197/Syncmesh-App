@@ -123,8 +123,11 @@ public class PairFragment extends Fragment implements NearbyDevicesAdapter.Liste
                 DisplayUtils.safe(snapshot.localIpAddress, getString(R.string.status_not_connected))));
         binding.textMyDeviceCode.setText(getString(R.string.format_pairing_code, snapshot.pairingCode));
         binding.textPairServiceStatus.setText(snapshot.serviceRunning
-                ? R.string.pair_sync_running
-                : R.string.pair_sync_stopped);
+                ? R.string.pair_badge_sync_on
+                : R.string.pair_badge_sync_off);
+        binding.bannerSyncOff.setVisibility(snapshot.serviceRunning
+                ? View.GONE
+                : View.VISIBLE);
         binding.textPairServiceStatus.setBackgroundResource(snapshot.serviceRunning
                 ? R.drawable.bg_status_badge_active
                 : R.drawable.bg_status_badge_idle);
@@ -216,6 +219,10 @@ public class PairFragment extends Fragment implements NearbyDevicesAdapter.Liste
         binding.inputLayoutCode.setError(null);
         binding.buttonPairDevice.setEnabled(false);
         coordinator.sendPairRequest(ipAddress, port, pairingCode, (success, message) -> {
+            // The callback is posted to the main thread up to ~3s later; the view may be gone.
+            if (binding == null || !isAdded()) {
+                return;
+            }
             binding.buttonPairDevice.setEnabled(true);
             Toast.makeText(requireContext(),
                     success
@@ -254,6 +261,9 @@ public class PairFragment extends Fragment implements NearbyDevicesAdapter.Liste
     }
 
     private void applyQrContents(String contents) {
+        if (binding == null || !isAdded()) {
+            return;
+        }
         try {
             JSONObject payload = new JSONObject(contents);
             if (!"syncmesh_pair_qr".equals(payload.optString("type"))) {

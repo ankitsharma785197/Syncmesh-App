@@ -30,7 +30,7 @@ public class TcpServer {
     private final ExecutorService acceptExecutor = Executors.newSingleThreadExecutor();
     private final ExecutorService clientExecutor = Executors.newCachedThreadPool();
 
-    private ServerSocket serverSocket;
+    private volatile ServerSocket serverSocket;
 
     public TcpServer(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
@@ -91,6 +91,29 @@ public class TcpServer {
         }
     }
 
+    /**
+     * Produces a log-safe summary of a message, redacting the clipboard {@code text} body so
+     * sensitive clipboard contents are never written to Logcat or the persisted debug log.
+     */
+    static String summarize(JSONObject message) {
+        if (message == null) {
+            return "unknown";
+        }
+        String type = message.optString("type", "unknown");
+        if (message.has("text")) {
+            return type + " (text:" + message.optString("text", "").length() + " chars)";
+        }
+        return type;
+    }
+
+    static String summarizeRaw(String rawJson) {
+        try {
+            return summarize(new JSONObject(rawJson));
+        } catch (Exception exception) {
+            return "unparseable";
+        }
+    }
+
     private void handleClient(Socket clientSocket) {
         String remoteAddress = clientSocket.getInetAddress() == null
                 ? "unknown"
@@ -106,14 +129,14 @@ public class TcpServer {
             if (line == null || line.trim().isEmpty()) {
                 return;
             }
-            SyncLog.i(TAG, "RECV " + remoteAddress + " -> " + line);
             JSONObject message = new JSONObject(line);
+            SyncLog.i(TAG, "RECV " + remoteAddress + " -> " + summarize(message));
             String response = messageHandler == null ? null : messageHandler.onMessage(remoteAddress, message);
             if (response != null) {
                 writer.write(response);
                 writer.write('\n');
                 writer.flush();
-                SyncLog.i(TAG, "SEND " + remoteAddress + " -> " + response);
+                SyncLog.i(TAG, "SEND " + remoteAddress + " -> " + summarizeRaw(response));
             }
         } catch (Exception exception) {
             SyncLog.e(TAG, "Failed to handle TCP client " + remoteAddress, exception);

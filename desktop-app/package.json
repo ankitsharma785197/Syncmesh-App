@@ -1,8 +1,8 @@
 {
   "name": "syncmesh-desktop",
   "productName": "SyncMesh Desktop",
-  "version": "1.0.0",
-  "description": "Offline clipboard sync between Android, Windows and macOS over local network.",
+  "version": "2.0.0",
+  "description": "Offline clipboard sync and file transfer between Android, Windows and macOS over local network.",
   "main": "main.js",
   "author": "SyncMesh",
   "license": "MIT",
@@ -25,6 +25,10 @@
   "build": {
     "appId": "com.syncmesh.desktop",
     "productName": "SyncMesh Desktop",
+    "asar": true,
+    "compression": "maximum",
+    "removePackageScripts": true,
+    "npmRebuild": false,
     "directories": {
       "output": "dist"
     },
@@ -34,15 +38,22 @@
       "src/**/*",
       "renderer/**/*",
       "assets/**/*",
-      "package.json"
+      "package.json",
+      "!**/*.map",
+      "!**/*.ts",
+      "!node_modules/.cache",
+      "!**/test",
+      "!**/*.log"
     ],
     "win": {
+      "icon": "assets/icon-512.png",
+      "publisherName": "SyncMesh",
+      "artifactName": "syncmesh-windows-v${version}.${ext}",
       "target": [
         {
           "target": "nsis",
           "arch": [
-            "x64",
-            "arm64"
+            "x64"
           ]
         }
       ]
@@ -52,12 +63,14 @@
       "allowToChangeInstallationDirectory": true
     },
     "mac": {
+      "icon": "assets/icon-512.png",
+      "artifactName": "syncmesh-mac-${arch}-v${version}.${ext}",
       "target": [
         {
           "target": "dmg",
           "arch": [
-            "x64",
-            "arm64"
+            "arm64",
+            "x64"
           ]
         }
       ],

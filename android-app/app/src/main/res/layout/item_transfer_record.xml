@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Syncmesh.Card"
+    android:layout_marginBottom="@dimen/space_sm">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/card_padding_compact">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/image_record_direction"
+                android:layout_width="@dimen/icon_sm"
+                android:layout_height="@dimen/icon_sm"
+                android:contentDescription="@string/transfer_history_title"
+                app:srcCompat="@drawable/ic_upload"
+                app:tint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/text_record_peer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_sm"
+                android:layout_weight="1"
+                android:ellipsize="middle"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle"
+                android:textStyle="bold"
+                tools:text="Sent to Pixel 8 Pro" />
+
+            <TextView
+                android:id="@+id/text_record_status"
+                style="@style/Widget.Syncmesh.Badge"
+                android:layout_marginStart="@dimen/space_sm"
+                tools:text="Completed" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_record_files"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_sm"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.Syncmesh.Body"
+            tools:text="IMG_1024.jpg, notes.pdf, build.apk" />
+
+        <TextView
+            android:id="@+id/text_record_meta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xs"
+            android:textAppearance="@style/TextAppearance.Syncmesh.Caption"
+            tools:text="Jul 3, 2026 10:15 · 3 files · 24 MB · 12s" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

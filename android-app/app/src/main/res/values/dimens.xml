@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spacing scale (4dp base) -->
+    <dimen name="space_xxs">2dp</dimen>
+    <dimen name="space_xs">4dp</dimen>
+    <dimen name="space_sm">8dp</dimen>
+    <dimen name="space_md">12dp</dimen>
+    <dimen name="space_lg">16dp</dimen>
+    <dimen name="space_xl">20dp</dimen>
+    <dimen name="space_2xl">24dp</dimen>
+    <dimen name="space_3xl">32dp</dimen>
+
+    <!-- Screen -->
+    <dimen name="screen_margin">16dp</dimen>
+    <dimen name="screen_padding_bottom">96dp</dimen>
+    <dimen name="section_spacing">16dp</dimen>
+
+    <!-- Cards -->
+    <dimen name="card_corner">12dp</dimen>
+    <dimen name="card_corner_sm">8dp</dimen>
+    <dimen name="card_padding">20dp</dimen>
+    <dimen name="card_padding_compact">16dp</dimen>
+    <dimen name="card_stroke">0dp</dimen>
+    <dimen name="card_spacing">12dp</dimen>
+
+    <!-- Radii (design system: sm 4 / md 8 / lg 12 / pill) -->
+    <dimen name="radius_pill">999dp</dimen>
+    <dimen name="radius_lg">12dp</dimen>
+    <dimen name="radius_md">8dp</dimen>
+    <dimen name="radius_sm">4dp</dimen>
+
+    <!-- Icons / avatars -->
+    <dimen name="icon_sm">18dp</dimen>
+    <dimen name="icon_md">24dp</dimen>
+    <dimen name="icon_lg">28dp</dimen>
+    <dimen name="avatar_sm">40dp</dimen>
+    <dimen name="avatar_md">48dp</dimen>
+    <dimen name="avatar_lg">56dp</dimen>
+    <dimen name="status_dot">10dp</dimen>
+
+    <!-- Touch targets -->
+    <dimen name="touch_min">48dp</dimen>
+    <dimen name="button_height">52dp</dimen>
+
+    <!-- Text sizes -->
+    <dimen name="text_display">28sp</dimen>
+    <dimen name="text_headline">22sp</dimen>
+    <dimen name="text_title">17sp</dimen>
+    <dimen name="text_subtitle">15sp</dimen>
+    <dimen name="text_body">14sp</dimen>
+    <dimen name="text_label">13sp</dimen>
+    <dimen name="text_caption">12sp</dimen>
+    <dimen name="text_overline">11sp</dimen>
+    <dimen name="text_metric">24sp</dimen>
+
+    <!-- Misc -->
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="qr_size">240dp</dimen>
+    <dimen name="empty_icon">64dp</dimen>
+</resources>

@@ -1,333 +1,280 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
     android:clipToPadding="false"
     android:fillViewport="true"
-    android:paddingBottom="24dp">
+    android:paddingBottom="@dimen/screen_padding_bottom"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingHorizontal="@dimen/screen_margin"
+        android:paddingTop="@dimen/space_lg">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/syncmesh_surface"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/syncmesh_outline"
-            app:strokeWidth="1dp">
+        <!-- My device -->
+        <com.google.android.material.card.MaterialCardView style="@style/Widget.Syncmesh.Card">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pair_my_device_title"
-                    android:textColor="@color/syncmesh_text"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/pair_subtitle"
-                    android:textColor="@color/syncmesh_text_secondary"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/text_my_device_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:textColor="@color/syncmesh_text"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/text_my_device_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:textColor="@color/syncmesh_text_secondary"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/text_my_device_ip"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:textColor="@color/syncmesh_text_secondary"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/text_my_device_code"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:textColor="@color/syncmesh_text_secondary"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/text_pair_service_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/bg_status_badge_idle"
-                    android:paddingStart="12dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="6dp"
-                    android:textColor="@color/syncmesh_text_secondary"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/syncmesh_surface"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/syncmesh_outline"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pair_qr_title"
-                    android:textColor="@color/syncmesh_text"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/pair_hint_qr"
-                    android:textColor="@color/syncmesh_text_secondary"
-                    android:textSize="14sp" />
+                android:padding="@dimen/card_padding">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/button_show_qr"
-                        style="@style/Widget.Material3.Button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:text="@string/action_show_qr" />
+                    <FrameLayout
+                        android:layout_width="@dimen/avatar_md"
+                        android:layout_height="@dimen/avatar_md"
+                        android:background="@drawable/bg_icon_tonal">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/button_scan_qr"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        <ImageView
+                            android:layout_width="@dimen/icon_md"
+                            android:layout_height="@dimen/icon_md"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/pair_my_device_title"
+                            app:srcCompat="@drawable/ic_devices"
+                            app:tint="?attr/colorPrimary" />
+                    </FrameLayout>
+
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="@dimen/space_md"
                         android:layout_weight="1"
-                        android:text="@string/action_scan_qr" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/text_my_device_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="middle"
+                            android:maxLines="1"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Title"
+                            tools:text="Google sdk_gphone64_arm64" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_xxs"
+                            android:text="@string/pair_my_device_caption"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Caption" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/text_pair_service_status"
+                        style="@style/Widget.Syncmesh.Badge"
+                        android:layout_marginStart="@dimen/space_sm"
+                        android:background="@drawable/bg_status_badge_idle"
+                        android:textColor="@color/syncmesh_text_secondary"
+                        tools:text="Sync off" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/banner_sync_off"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:background="@drawable/bg_warning_banner"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/space_md"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_sm"
+                        android:layout_height="@dimen/icon_sm"
+                        android:layout_marginTop="@dimen/space_xxs"
+                        android:importantForAccessibility="no"
+                        app:srcCompat="@drawable/ic_warning"
+                        app:tint="@color/syncmesh_warning" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_sm"
+                        android:layout_weight="1"
+                        android:text="@string/pair_sync_stopped"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Body"
+                        android:textColor="?attr/colorOnSurface" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:background="@drawable/bg_panel"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_lg">
+
+                    <TextView
+                        android:id="@+id/text_my_device_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Body"
+                        tools:text="Device ID d57e8454" />
+
+                    <TextView
+                        android:id="@+id/text_my_device_ip"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xs"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Body"
+                        tools:text="IP 192.168.1.4" />
+
+                    <TextView
+                        android:id="@+id/text_my_device_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xs"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle"
+                        android:textColor="?attr/colorPrimary"
+                        android:textStyle="bold"
+                        tools:text="Pairing code 336185" />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_show_qr"
+                    style="@style/Widget.Syncmesh.Button.Tonal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:text="@string/action_show_qr"
+                    app:icon="@drawable/ic_qr_code" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
+        <!-- Scan to pair -->
+        <TextView
+            style="@style/Widget.Syncmesh.SectionLabel"
+            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginBottom="@dimen/space_md"
+            android:text="@string/pair_qr_title" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_scan_qr"
+            style="@style/Widget.Syncmesh.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/syncmesh_surface"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/syncmesh_outline"
-            app:strokeWidth="1dp">
+            android:text="@string/action_scan_qr"
+            app:icon="@drawable/ic_scan" />
+
+        <!-- Manual pairing -->
+        <TextView
+            style="@style/Widget.Syncmesh.SectionLabel"
+            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginBottom="@dimen/space_md"
+            android:text="@string/pair_manual_title" />
+
+        <com.google.android.material.card.MaterialCardView style="@style/Widget.Syncmesh.Card">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="@dimen/card_padding">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/pair_manual_title"
-                    android:textColor="@color/syncmesh_text"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:text="@string/pair_manual_summary"
-                    android:textColor="@color/syncmesh_text_secondary"
-                    android:textSize="14sp" />
+                    android:textAppearance="@style/TextAppearance.Syncmesh.Body" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_ip"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.Syncmesh.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="@string/pair_hint_ip">
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:hint="@string/pair_hint_ip"
+                    app:startIconDrawable="@drawable/ic_router">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_ip"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textUri" />
+                        android:inputType="text"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_port"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.Syncmesh.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/space_md"
                     android:hint="@string/pair_hint_port">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_port"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_code"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.Syncmesh.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:hint="@string/pair_hint_code">
+                    android:layout_marginTop="@dimen/space_md"
+                    android:hint="@string/pair_hint_code"
+                    app:startIconDrawable="@drawable/ic_key">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_code"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:maxLength="6"
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_pair_device"
-                    style="@style/Widget.Material3.Button"
+                    style="@style/Widget.Syncmesh.Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/action_pair_device" />
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:text="@string/action_pair_device"
+                    app:icon="@drawable/ic_pair" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
+        <!-- Nearby devices -->
+        <TextView
+            style="@style/Widget.Syncmesh.SectionLabel"
+            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginBottom="@dimen/space_sm"
+            android:text="@string/pair_nearby_title" />
+
+        <TextView
+            android:id="@+id/text_nearby_empty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/syncmesh_surface"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/syncmesh_outline"
-            app:strokeWidth="1dp">
+            android:gravity="center"
+            android:drawablePadding="@dimen/space_md"
+            android:paddingVertical="@dimen/space_2xl"
+            android:text="@string/empty_nearby"
+            android:textAppearance="@style/TextAppearance.Syncmesh.Body"
+            app:drawableTopCompat="@drawable/ic_nearby"
+            app:drawableTint="?attr/colorOnSurfaceVariant" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pair_nearby_title"
-                    android:textColor="@color/syncmesh_text"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/pair_nearby_summary"
-                    android:textColor="@color/syncmesh_text_secondary"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/text_nearby_empty"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/empty_nearby"
-                    android:textColor="@color/syncmesh_text_secondary" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_nearby_devices"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:nestedScrollingEnabled="false" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_nearby_devices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/syncmesh_surface"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/syncmesh_outline"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pair_bluetooth_title"
-                    android:textColor="@color/syncmesh_text"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/pair_bluetooth_summary"
-                    android:textColor="@color/syncmesh_text_secondary"
-                    android:textSize="14sp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_bluetooth_placeholder"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:enabled="false"
-                    android:text="@string/action_bluetooth_coming_next" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

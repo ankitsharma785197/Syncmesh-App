@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_device"
+    style="@style/Widget.Syncmesh.Card.Interactive"
+    android:layout_marginBottom="@dimen/space_sm"
+    app:strokeWidth="1dp"
+    app:strokeColor="@android:color/transparent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/card_padding_compact">
+
+        <FrameLayout
+            android:layout_width="@dimen/avatar_sm"
+            android:layout_height="@dimen/avatar_sm"
+            android:background="@drawable/bg_icon_tonal">
+
+            <ImageView
+                android:layout_width="@dimen/icon_sm"
+                android:layout_height="@dimen/icon_sm"
+                android:layout_gravity="center"
+                android:contentDescription="@string/transfer_choose_device"
+                app:srcCompat="@drawable/ic_devices"
+                app:tint="?attr/colorPrimary" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_md"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_device_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="middle"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle"
+                android:textStyle="bold"
+                tools:text="Pixel 8 Pro" />
+
+            <TextView
+                android:id="@+id/text_device_endpoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xxs"
+                android:textAppearance="@style/TextAppearance.Syncmesh.Caption"
+                tools:text="192.168.1.7:8989" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_selected"
+            android:layout_width="@dimen/icon_md"
+            android:layout_height="@dimen/icon_md"
+            android:layout_marginStart="@dimen/space_sm"
+            android:contentDescription="@string/transfer_choose_device"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/ic_check"
+            app:tint="?attr/colorPrimary"
+            tools:visibility="visible" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -10,12 +10,18 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/syncmesh_surface"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
         android:elevation="0dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:paddingStart="@dimen/space_lg"
+        android:paddingEnd="@dimen/space_sm"
         app:titleCentered="false"
-        app:titleTextColor="@color/syncmesh_text" />
+        app:titleTextAppearance="@style/TextAppearance.Syncmesh.Toolbar"
+        app:titleTextColor="?attr/colorOnSurface" />
+
+    <View
+        style="@style/Widget.Syncmesh.Divider"
+        android:alpha="0.5" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
@@ -27,9 +33,12 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/syncmesh_surface"
-        android:elevation="0dp"
-        app:itemActiveIndicatorStyle="@style/Widget.Material3.BottomNavigationView.ActiveIndicator"
+        android:background="?attr/colorSurface"
+        android:elevation="8dp"
+        app:elevation="8dp"
+        app:itemActiveIndicatorStyle="@style/Widget.Syncmesh.BottomNav.Indicator"
+        app:itemIconTint="@color/bottom_nav_item"
+        app:itemTextColor="@color/bottom_nav_item"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_menu" />
 </LinearLayout>

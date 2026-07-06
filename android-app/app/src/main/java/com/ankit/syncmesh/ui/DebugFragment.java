@@ -48,6 +48,7 @@ public class DebugFragment extends Fragment {
 
         binding.buttonClearLogs.setOnClickListener(v -> confirmClearLogs());
         binding.buttonCopyLogs.setOnClickListener(v -> copyLogs());
+        binding.buttonDisableDebug.setOnClickListener(v -> confirmDisableDebug());
 
         repository.getServiceSnapshotLiveData().observe(getViewLifecycleOwner(), this::bindSnapshot);
         repository.getLogsLiveData().observe(getViewLifecycleOwner(), logs -> {
@@ -95,6 +96,22 @@ public class DebugFragment extends Fragment {
                 .setPositiveButton(R.string.action_clear_logs, (dialog, which) -> {
                     repository.clearLogs();
                     Toast.makeText(requireContext(), R.string.toast_logs_cleared, Toast.LENGTH_SHORT).show();
+                })
+                .show();
+    }
+
+    private void confirmDisableDebug() {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.dialog_disable_debug_title)
+                .setMessage(R.string.dialog_disable_debug_message)
+                .setNegativeButton(R.string.action_cancel, null)
+                .setPositiveButton(R.string.action_disable_debug, (dialog, which) -> {
+                    repository.getPreferences().setDebugUnlocked(false);
+                    com.ankit.syncmesh.util.SyncLog.setPersistToDb(false);
+                    repository.clearLogs();
+                    Toast.makeText(requireContext(), R.string.toast_debug_disabled,
+                            Toast.LENGTH_SHORT).show();
+                    requireActivity().finish();
                 })
                 .show();
     }

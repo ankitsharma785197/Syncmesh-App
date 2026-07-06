@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.Syncmesh" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/syncmesh_primary</item>
@@ -19,10 +19,14 @@
         <item name="colorSurfaceVariant">@color/syncmesh_surface_variant</item>
         <item name="colorOnSurfaceVariant">@color/syncmesh_text_secondary</item>
         <item name="colorOutline">@color/syncmesh_outline</item>
+        <item name="colorControlNormal">@color/syncmesh_text_secondary</item>
         <item name="android:windowBackground">@color/syncmesh_background</item>
         <item name="android:statusBarColor">@color/syncmesh_surface</item>
-        <item name="android:navigationBarColor">@color/syncmesh_background</item>
+        <item name="android:navigationBarColor">@color/syncmesh_surface</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="android:textColorPrimary">@color/syncmesh_text</item>
         <item name="android:textColorSecondary">@color/syncmesh_text_secondary</item>
+        <item name="android:textColorHint">@color/ds_text_subtle</item>
     </style>
 </resources>

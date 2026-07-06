@@ -1,58 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="?android:attr/colorBackground">
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_paired_devices"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/syncmesh_surface"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="0dp"
-        app:strokeColor="@color/syncmesh_outline"
-        app:strokeWidth="1dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/devices_title"
-                android:textColor="@color/syncmesh_text"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="@string/devices_summary"
-                android:textColor="@color/syncmesh_text_secondary"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingHorizontal="@dimen/screen_margin"
+        android:paddingTop="@dimen/space_sm"
+        android:paddingBottom="@dimen/screen_padding_bottom"
+        android:scrollbars="none" />
 
     <TextView
         android:id="@+id/text_devices_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/space_xl"
+        android:drawablePadding="@dimen/space_md"
         android:text="@string/empty_paired_devices"
-        android:textColor="@color/syncmesh_text_secondary" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_paired_devices"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="12dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingBottom="20dp" />
-</LinearLayout>
+        android:textAppearance="@style/TextAppearance.Syncmesh.Body"
+        android:textAlignment="center"
+        app:drawableTopCompat="@drawable/ic_devices"
+        app:drawableTint="?attr/colorOnSurfaceVariant" />
+</FrameLayout>

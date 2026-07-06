@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ============ Shape appearances ============ -->
+    <style name="ShapeAppearance.Syncmesh.Card" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/card_corner</item>
+    </style>
+
+    <style name="ShapeAppearance.Syncmesh.Avatar" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">14dp</item>
+    </style>
+
+    <!-- ============ Typography ============ -->
+    <style name="TextAppearance.Syncmesh.Display" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textSize">@dimen/text_display</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+
+    <style name="TextAppearance.Syncmesh.Headline" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">@dimen/text_headline</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+
+    <style name="TextAppearance.Syncmesh.Title" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.Syncmesh.Subtitle" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">@dimen/text_subtitle</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.Syncmesh.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+        <item name="android:lineSpacingMultiplier">1.15</item>
+    </style>
+
+    <style name="TextAppearance.Syncmesh.Label" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textSize">@dimen/text_label</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.Syncmesh.Caption" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <style name="TextAppearance.Syncmesh.Overline" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textSize">@dimen/text_overline</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Syncmesh.Metric" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textSize">@dimen/text_metric</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TextAppearance.Syncmesh.Mono" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- ============ Section label (overline) ============ -->
+    <style name="Widget.Syncmesh.SectionLabel" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.Syncmesh.Overline</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!-- ============ Cards ============ -->
+    <!-- Filled, border-less, shadow-less card. Elevation comes from surface contrast. -->
+    <style name="Widget.Syncmesh.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">?attr/colorSurfaceVariant</item>
+        <item name="cardCornerRadius">@dimen/card_corner</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Widget.Syncmesh.Card.Interactive">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="rippleColor">?attr/colorPrimary</item>
+    </style>
+
+    <!-- Inner tonal panel used for metrics / grouped rows -->
+    <style name="Widget.Syncmesh.Panel" parent="">
+        <item name="android:background">@drawable/bg_panel</item>
+        <item name="android:padding">@dimen/space_lg</item>
+    </style>
+
+    <!-- ============ Buttons ============ -->
+    <style name="Widget.Syncmesh.Button" parent="Widget.Material3.Button">
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="cornerRadius">@dimen/radius_md</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">@dimen/space_sm</item>
+    </style>
+
+    <style name="Widget.Syncmesh.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="cornerRadius">@dimen/radius_md</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">@dimen/space_sm</item>
+    </style>
+
+    <style name="Widget.Syncmesh.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="cornerRadius">@dimen/radius_md</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="strokeColor">?attr/colorOutline</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">@dimen/space_sm</item>
+    </style>
+
+    <style name="Widget.Syncmesh.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="cornerRadius">@dimen/radius_md</item>
+    </style>
+
+    <!-- Small icon-only action used inside list rows -->
+    <style name="Widget.Syncmesh.Button.Icon" parent="Widget.Material3.Button.IconButton">
+        <item name="iconTint">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!-- ============ Badges / chips ============ -->
+    <style name="Widget.Syncmesh.Badge" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/space_md</item>
+        <item name="android:paddingEnd">@dimen/space_md</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">@style/TextAppearance.Syncmesh.Overline</item>
+        <item name="android:background">@drawable/bg_status_badge_idle</item>
+    </style>
+
+    <!-- ============ Text fields ============ -->
+    <style name="Widget.Syncmesh.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">@dimen/radius_md</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_md</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_md</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_md</item>
+        <item name="boxStrokeColor">?attr/colorPrimary</item>
+        <item name="hintTextColor">?attr/colorPrimary</item>
+    </style>
+
+    <!-- ============ Bottom navigation ============ -->
+    <style name="Widget.Syncmesh.BottomNav.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">?attr/colorPrimaryContainer</item>
+    </style>
+
+    <!-- ============ Toolbar title ============ -->
+    <style name="TextAppearance.Syncmesh.Toolbar" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- ============ Divider ============ -->
+    <style name="Widget.Syncmesh.Divider" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/divider_height</item>
+        <item name="android:background">?attr/colorOutline</item>
+    </style>
+
+</resources>

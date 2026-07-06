@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class SyncDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "SyncDatabaseHelper";
     private static final String DATABASE_NAME = "syncmesh.db";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
 
     public SyncDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -82,6 +82,21 @@ public class SyncDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS app_settings (" +
                 "key TEXT PRIMARY KEY," +
                 "value TEXT" +
+                ")");
+
+        // Phase 3: file transfer history (additive — existing tables untouched).
+        db.execSQL("CREATE TABLE IF NOT EXISTS transfer_history (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "transfer_id TEXT," +
+                "direction TEXT," +
+                "peer_device_id TEXT," +
+                "peer_device_name TEXT," +
+                "file_count INTEGER DEFAULT 0," +
+                "total_size INTEGER DEFAULT 0," +
+                "status TEXT," +
+                "started_at INTEGER," +
+                "duration_ms INTEGER DEFAULT 0," +
+                "file_names TEXT" +
                 ")");
     }
 
@@ -285,6 +300,71 @@ public class SyncDatabaseHelper extends SQLiteOpenHelper {
         } catch (SQLiteException exception) {
             Log.e(TAG, "Failed to save setting " + key, exception);
         }
+    }
+
+    public synchronized boolean insertTransferRecord(com.ankit.syncmesh.model.TransferRecord record) {
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("transfer_id", record.transferId);
+            values.put("direction", record.direction);
+            values.put("peer_device_id", record.peerDeviceId);
+            values.put("peer_device_name", record.peerDeviceName);
+            values.put("file_count", record.fileCount);
+            values.put("total_size", record.totalSize);
+            values.put("status", record.status);
+            values.put("started_at", record.startedAt);
+            values.put("duration_ms", record.durationMs);
+            values.put("file_names", record.fileNames);
+            return db.insert("transfer_history", null, values) != -1;
+        } catch (SQLiteException exception) {
+            Log.e(TAG, "Failed to insert transfer record", exception);
+            return false;
+        }
+    }
+
+    /** Newest-first transfer history; {@code searchQuery} matches peer or file names. */
+    public synchronized ArrayList<com.ankit.syncmesh.model.TransferRecord> getTransferRecords(
+            @Nullable String searchQuery) {
+        ArrayList<com.ankit.syncmesh.model.TransferRecord> records = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            String selection = null;
+            String[] selectionArgs = null;
+            if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+                String like = "%" + searchQuery.trim() + "%";
+                selection = "peer_device_name LIKE ? OR file_names LIKE ? OR status LIKE ?";
+                selectionArgs = new String[]{like, like, like};
+            }
+            cursor = db.query("transfer_history", null, selection, selectionArgs,
+                    null, null, "started_at DESC", "500");
+            while (cursor.moveToNext()) {
+                com.ankit.syncmesh.model.TransferRecord record =
+                        new com.ankit.syncmesh.model.TransferRecord();
+                record.id = cursor.getLong(cursor.getColumnIndexOrThrow("id"));
+                record.transferId = cursor.getString(cursor.getColumnIndexOrThrow("transfer_id"));
+                record.direction = cursor.getString(cursor.getColumnIndexOrThrow("direction"));
+                record.peerDeviceId = cursor.getString(
+                        cursor.getColumnIndexOrThrow("peer_device_id"));
+                record.peerDeviceName = cursor.getString(
+                        cursor.getColumnIndexOrThrow("peer_device_name"));
+                record.fileCount = cursor.getInt(cursor.getColumnIndexOrThrow("file_count"));
+                record.totalSize = cursor.getLong(cursor.getColumnIndexOrThrow("total_size"));
+                record.status = cursor.getString(cursor.getColumnIndexOrThrow("status"));
+                record.startedAt = cursor.getLong(cursor.getColumnIndexOrThrow("started_at"));
+                record.durationMs = cursor.getLong(cursor.getColumnIndexOrThrow("duration_ms"));
+                record.fileNames = cursor.getString(cursor.getColumnIndexOrThrow("file_names"));
+                records.add(record);
+            }
+        } catch (SQLiteException exception) {
+            Log.e(TAG, "Failed to query transfer history", exception);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return records;
     }
 
     private ClipboardEntry readClipboardEntry(Cursor cursor) {

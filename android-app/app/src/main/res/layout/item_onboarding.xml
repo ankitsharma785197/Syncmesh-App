@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/space_3xl">
+
+    <FrameLayout
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@drawable/bg_onboarding_icon">
+
+        <ImageView
+            android:id="@+id/image_onboarding"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ic_sync"
+            app:tint="?attr/colorPrimary" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/text_onboarding_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_2xl"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.Syncmesh.Headline"
+        tools:text="Welcome to SyncMesh" />
+
+    <TextView
+        android:id="@+id/text_onboarding_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_md"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.Syncmesh.Body"
+        tools:text="Share your clipboard between phones on the same Wi-Fi." />
+</LinearLayout>

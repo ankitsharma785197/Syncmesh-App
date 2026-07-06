@@ -1,3 +1,4 @@
+const os = require('os');
 const { v4: uuidv4 } = require('uuid');
 const QRCode = require('qrcode');
 
@@ -8,11 +9,12 @@ const { getLocalIPv4, isIPv4Address } = require('./network');
 const RecentEvents = require('./recentEvents');
 const { sendJsonLine } = require('./tcpClient');
 const TcpServer = require('./tcpServer');
+const TransferManager = require('./transferManager');
 const UdpDiscovery = require('./udpDiscovery');
 const { safeNumber, safeString } = require('./safe');
 
 class SyncController {
-  constructor({ database, log, emit }) {
+  constructor({ database, log, emit, transferSaveDir }) {
     this.database = database;
     this.log = log;
     this.emit = emit;
@@ -27,6 +29,7 @@ class SyncController {
     this.deviceId = getOrCreateDeviceId(database);
     this.deviceName = getDeviceName(database);
     this.pairingCode = getPairingCode(database);
+    this.debugUnlocked = database.getSetting('debugUnlocked') === 'true';
 
     this.tcpServer = new TcpServer({
       onMessage: (message, remote) => this.handleTcpMessage(message, remote),
@@ -47,6 +50,16 @@ class SyncController {
       onHistory: (item) => this.saveHistory(item),
       logger: log
     });
+
+    this.defaultTransferSaveDir = transferSaveDir;
+    this.transfers = new TransferManager({
+      database,
+      saveDir: database.getSetting('transferSaveDir', transferSaveDir) || transferSaveDir,
+      getIdentity: () => ({ deviceId: this.deviceId, deviceName: this.deviceName }),
+      isPairedDevice: (deviceId) => Boolean(this.database.getDevice(deviceId)),
+      emit: (channel, payload) => this.emit(channel, payload),
+      addLog: (level, message) => this.addLog(level, message)
+    });
   }
 
   async start() {
@@ -57,8 +70,14 @@ class SyncController {
     await this.tcpServer.start();
     await this.discovery.start();
     this.clipboard.start();
+    // File-transfer server is fully separated; never let it break clipboard sync.
+    try {
+      this.transfers.startServer();
+    } catch (error) {
+      this.addLog('warn', `TRANSFER_SERVER_START_FAILED ${error.message}`);
+    }
     this.running = true;
-    this.addLog('info', 'Sync started on TCP 8989 and UDP discovery 8990');
+    this.addLog('info', 'Sync started on TCP 8989, UDP discovery 8990, transfers 8991');
     this.emitState();
     this.onStatusChange?.();
     return this.getState();
@@ -72,6 +91,11 @@ class SyncController {
     this.clipboard.stop();
     await this.discovery.stop();
     await this.tcpServer.stop();
+    try {
+      this.transfers.stopServer();
+    } catch (error) {
+      this.addLog('warn', `TRANSFER_SERVER_STOP_FAILED ${error.message}`);
+    }
     this.running = false;
     this.addLog('info', 'Sync stopped');
     this.emitState();
@@ -96,6 +120,12 @@ class SyncController {
       nearbyDevices: this.getNearbyDevices(),
       history: this.database.listClipboardHistory(100),
       logs: this.logs,
+      debugUnlocked: this.debugUnlocked,
+      transfer: this.transfers.getState(),
+      transferHistory: this.database.listTransferHistory(100),
+      transferSaveDir: this.transfers.saveDir,
+      transferSaveDirDefault: this.defaultTransferSaveDir,
+      homeDir: os.homedir(),
       qrDataUrl: await this.getQrDataUrl()
     };
   }
@@ -126,6 +156,61 @@ class SyncController {
       this.pairingCode = String(Math.floor(100000 + Math.random() * 900000));
       this.database.setSetting('pairingCode', this.pairingCode);
     }
+    if (settings.onboardingComplete !== undefined) {
+      this.database.setSetting('onboardingComplete', settings.onboardingComplete ? 'true' : 'false');
+    }
+    if (settings.theme !== undefined) {
+      this.database.setSetting('theme', safeString(settings.theme, 'light'));
+    }
+    if (settings.launchAtLogin !== undefined) {
+      this.database.setSetting('launchAtLogin', settings.launchAtLogin ? 'true' : 'false');
+    }
+    if (settings.startMinimized !== undefined) {
+      this.database.setSetting('startMinimized', settings.startMinimized ? 'true' : 'false');
+    }
+    if (settings.notificationsEnabled !== undefined) {
+      this.database.setSetting('notificationsEnabled', settings.notificationsEnabled ? 'true' : 'false');
+    }
+    this.emitState();
+    return this.getState();
+  }
+
+  setTransferSaveDir(dir) {
+    const target = safeString(dir).trim() || this.defaultTransferSaveDir;
+    this.transfers.setSaveDir(target);
+    this.database.setSetting('transferSaveDir', target);
+    this.addLog('info', `TRANSFER_SAVE_DIR_SET ${target}`);
+    this.emitState();
+    return this.getState();
+  }
+
+  // Easter-egg gate (mirrors the Android 7-tap unlock): logs persist to the
+  // sync_logs table only while debug mode is on.
+  setDebugUnlocked(unlocked) {
+    this.debugUnlocked = Boolean(unlocked);
+    this.database.setSetting('debugUnlocked', this.debugUnlocked ? 'true' : 'false');
+    this.addLog('info', this.debugUnlocked ? 'DEBUG_MODE_UNLOCKED' : 'DEBUG_MODE_DISABLED');
+    this.emitState();
+    return this.getState();
+  }
+
+  clearLogs() {
+    this.logs = [];
+    try {
+      this.database.clearSyncLogs();
+    } catch (_) {}
+    this.emitState();
+    return this.getState();
+  }
+
+  clearClipboardHistory() {
+    this.database.clearClipboardHistory();
+    this.emitState();
+    return this.getState();
+  }
+
+  clearTransferHistory() {
+    this.database.clearTransferHistory();
     this.emitState();
     return this.getState();
   }
@@ -161,6 +246,8 @@ class SyncController {
         return this.handlePairResponse(message, remote);
       case 'clipboard_update':
         return this.handleClipboardUpdate(message, remote);
+      case 'unpair':
+        return this.handleUnpair(message);
       case 'ping':
         return {
           type: 'pong',
@@ -281,7 +368,49 @@ class SyncController {
       createdAt: message.timestamp || Date.now()
     });
     this.addLog('info', `CLIPBOARD_APPLIED ${fromDeviceId}`);
+    this.emit('clipboard:received', {
+      deviceName: safeString(message.fromDeviceName, paired.deviceName),
+      preview: safeString(message.text).slice(0, 80)
+    });
     return { type: 'clipboard_ack', accepted: true, eventId: message.eventId };
+  }
+
+  handleUnpair(message) {
+    const senderDeviceId = safeString(message.fromDeviceId).trim();
+    if (!senderDeviceId || !this.database.getDevice(senderDeviceId)) {
+      return null;
+    }
+    const senderName = safeString(message.fromDeviceName, senderDeviceId);
+    this.database.removeDevice(senderDeviceId);
+    this.addLog('info', `Peer removed pairing: ${senderName}`);
+    this.emit('device:unpaired', { deviceId: senderDeviceId, deviceName: senderName });
+    this.emitState();
+    return null;
+  }
+
+  async removeDeviceAndNotify(deviceId) {
+    const device = this.database.getDevice(deviceId);
+    this.database.removeDevice(deviceId);
+    this.emitState();
+    if (device && device.ipAddress) {
+      // Best-effort unpair notice so the peer drops the pairing too.
+      try {
+        await sendJsonLine({
+          host: device.ipAddress,
+          port: device.port || TCP_PORT,
+          message: {
+            type: 'unpair',
+            fromDeviceId: safeString(this.deviceId),
+            fromDeviceName: safeString(this.deviceName),
+            timestamp: Date.now()
+          }
+        });
+        this.addLog('info', `UNPAIR_NOTICE_SENT ${device.deviceName}`);
+      } catch (error) {
+        this.addLog('warn', `UNPAIR_NOTICE_FAILED ${device.deviceId} ${error.message}`);
+      }
+    }
+    return this.getState();
   }
 
   async pairManual(payload = {}) {
@@ -448,6 +577,13 @@ class SyncController {
     this.logs.unshift(item);
     this.logs = this.logs.slice(0, 300);
     this.log?.[level]?.(message);
+    if (this.debugUnlocked) {
+      try {
+        this.database.addSyncLog(level, message, item.createdAt);
+      } catch (_) {
+        // never let log persistence break the runtime
+      }
+    }
     this.emit('log:new', item);
   }
 

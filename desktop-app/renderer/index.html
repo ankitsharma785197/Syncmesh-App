@@ -9,28 +9,37 @@
   <body>
     <div class="app-shell">
       <aside class="sidebar">
+        <div class="titlebar-spacer"></div>
         <div class="brand">
-          <div class="brand-mark">S</div>
+          <img class="brand-mark" src="../assets/icon-512.png" alt="SyncMesh logo">
           <div>
             <h1>SyncMesh</h1>
-            <p>Desktop</p>
+            <p id="versionLabel" title="SyncMesh Desktop v2.0">Desktop v2.0</p>
           </div>
         </div>
 
         <nav class="nav">
-          <button class="nav-item active" data-view="home">Home</button>
-          <button class="nav-item" data-view="pair">Pair Device</button>
-          <button class="nav-item" data-view="devices">Paired Devices</button>
-          <button class="nav-item" data-view="history">Clipboard History</button>
-          <button class="nav-item" data-view="logs">Debug Logs</button>
+          <button class="nav-item active" data-view="home"><span class="nav-icon">⌂</span>Home</button>
+          <button class="nav-item" data-view="pair"><span class="nav-icon">⧉</span>Pair Device</button>
+          <button class="nav-item" data-view="devices"><span class="nav-icon">☰</span>Paired Devices</button>
+          <button class="nav-item" data-view="transfer"><span class="nav-icon">⇅</span>File Transfer</button>
+          <button class="nav-item" data-view="history"><span class="nav-icon">✂</span>Clipboard History</button>
+          <button class="nav-item hidden" id="debugNavItem" data-view="logs"><span class="nav-icon">⌗</span>Debug Logs</button>
         </nav>
+
+        <div class="sidebar-footer">
+          <button id="themeToggle" class="theme-toggle" type="button" title="Switch theme">
+            <span id="themeToggleIcon">☾</span><span id="themeToggleLabel">Dark Mode</span>
+          </button>
+          <div class="status-pill" id="sidebarStatus"><span class="dot"></span>Stopped</div>
+        </div>
       </aside>
 
       <main class="content">
         <header class="topbar">
           <div>
             <p class="eyebrow">Local WiFi/LAN sync</p>
-            <h2 id="viewTitle">Home Dashboard</h2>
+            <h2 id="viewTitle">Home</h2>
           </div>
           <button id="syncToggle" class="primary-button">Start Sync</button>
         </header>
@@ -89,9 +98,14 @@
                 </div>
                 <div>
                   <dt>Protocol</dt>
-                  <dd>JSON lines over TCP, UDP discovery</dd>
+                  <dd>JSON lines over TCP · UDP discovery · file transfer on 8991</dd>
                 </div>
               </dl>
+              <div class="settings-toggles">
+                <label class="toggle-row"><input type="checkbox" id="launchAtLogin"><span>Launch at login</span></label>
+                <label class="toggle-row"><input type="checkbox" id="startMinimized"><span>Start minimized in the tray</span></label>
+                <label class="toggle-row"><input type="checkbox" id="notificationsEnabled"><span>Show notifications</span></label>
+              </div>
             </article>
           </div>
         </section>
@@ -150,10 +164,105 @@
             <div class="panel-header">
               <div>
                 <h3>Paired Devices</h3>
-                <p>Clipboard updates are accepted only from this list.</p>
+                <p>Clipboard updates and file transfers are accepted only from this list.</p>
               </div>
             </div>
             <div id="devicesList" class="list"></div>
+          </article>
+        </section>
+
+        <section id="transfer" class="view">
+          <article class="panel" id="transferComposer">
+            <div class="panel-header">
+              <div>
+                <h3>Send Files</h3>
+                <p>Any file type, up to 2 GB each.</p>
+              </div>
+            </div>
+
+            <div class="save-location-row">
+              <div class="save-location-info">
+                <span class="save-location-icon">📁</span>
+                <div class="save-location-texts">
+                  <div class="save-location-label">Received files are saved to</div>
+                  <div class="save-location-name" id="saveDirName">SyncMesh</div>
+                  <div class="save-location-path" id="saveDirPath" title="">~/Downloads/SyncMesh</div>
+                </div>
+              </div>
+              <div class="save-location-actions">
+                <button id="openTransferFolder" class="ghost-button" type="button">Open</button>
+                <button id="resetTransferFolder" class="ghost-button hidden" type="button">Reset</button>
+                <button id="chooseTransferFolder" class="secondary-button" type="button">Change…</button>
+              </div>
+            </div>
+
+            <div id="dropZone" class="drop-zone">
+              <div class="drop-zone-icon">⇅</div>
+              <div class="drop-zone-title">Drag &amp; drop files here</div>
+              <div class="drop-zone-hint">or</div>
+              <button id="chooseFiles" class="secondary-button" type="button">Choose Files…</button>
+            </div>
+
+            <div id="stagedFiles" class="staged-files"></div>
+
+            <div class="transfer-send-row">
+              <label class="transfer-device-label">
+                Send to
+                <select id="transferDevice"></select>
+              </label>
+              <button id="sendFiles" class="primary-button" type="button" disabled>Send Files</button>
+              <button id="clearFiles" class="ghost-button hidden" type="button">Clear</button>
+            </div>
+            <div id="transferNoDevices" class="empty-state hidden">
+              No paired devices yet. <button id="goPair" class="link-button" type="button">Pair a device</button> first.
+            </div>
+          </article>
+
+          <article class="panel hidden" id="transferProgressPanel">
+            <div class="panel-header">
+              <div>
+                <h3 id="transferProgressTitle">Transferring…</h3>
+                <p id="transferProgressPeer"></p>
+              </div>
+              <span class="badge" id="transferPhaseBadge">-</span>
+            </div>
+
+            <div class="progress-track"><div class="progress-fill" id="transferOverallFill"></div></div>
+            <div class="progress-meta">
+              <span id="transferOverallText">0%</span>
+              <span id="transferSpeed"></span>
+              <span id="transferEta"></span>
+            </div>
+
+            <div class="current-file">
+              <div class="current-file-name" id="transferFileName"></div>
+              <div class="progress-track small"><div class="progress-fill" id="transferFileFill"></div></div>
+              <div class="progress-meta">
+                <span id="transferFileText"></span>
+                <span id="transferCounter"></span>
+              </div>
+            </div>
+
+            <div id="transferMessage" class="transfer-message"></div>
+
+            <div class="transfer-actions">
+              <button id="transferPause" class="secondary-button" type="button">Pause</button>
+              <button id="transferResume" class="secondary-button hidden" type="button">Resume</button>
+              <button id="transferCancel" class="danger-button" type="button">Cancel</button>
+              <button id="transferRetry" class="secondary-button hidden" type="button">Retry</button>
+              <button id="transferDone" class="ghost-button hidden" type="button">Done</button>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Transfer History</h3>
+                <p>Completed, failed and cancelled transfers saved locally.</p>
+              </div>
+              <button id="clearTransferHistory" class="ghost-button" type="button">Clear History</button>
+            </div>
+            <div id="transferHistoryList" class="list"></div>
           </article>
         </section>
 
@@ -164,6 +273,7 @@
                 <h3>Clipboard History</h3>
                 <p>Incoming and outgoing text events saved locally in SQLite.</p>
               </div>
+              <button id="clearHistory" class="ghost-button" type="button">Clear History</button>
             </div>
             <div id="historyList" class="history-list"></div>
           </article>
@@ -174,13 +284,67 @@
             <div class="panel-header">
               <div>
                 <h3>Debug Logs</h3>
-                <p>Local service events and networking errors.</p>
+                <p>Local service events and networking errors. Persisted to SQLite only while debug mode is on.</p>
+              </div>
+              <div class="debug-actions">
+                <button id="copyLogs" class="ghost-button" type="button">Copy Logs</button>
+                <button id="clearLogs" class="ghost-button" type="button">Clear Logs</button>
+                <button id="debugOff" class="danger-button" type="button">Turn Off Debug Mode</button>
               </div>
             </div>
             <div id="logsList" class="logs-list"></div>
           </article>
         </section>
       </main>
+    </div>
+
+    <div id="dragOverlay" class="drag-overlay hidden">
+      <div class="drag-overlay-card">
+        <div class="drop-zone-icon">⇅</div>
+        <div class="drop-zone-title">Drop files to send</div>
+      </div>
+    </div>
+
+    <div id="incomingModal" class="modal-backdrop hidden">
+      <div class="modal">
+        <h3>Incoming files</h3>
+        <p id="incomingSummary"></p>
+        <div id="incomingFiles" class="incoming-files"></div>
+        <p class="incoming-dest" id="incomingDest"></p>
+        <div class="modal-actions">
+          <button id="incomingReject" class="danger-button" type="button">Reject</button>
+          <button id="incomingAccept" class="primary-button" type="button">Accept</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="onboarding" class="onboarding-backdrop hidden">
+      <div class="onboarding-card">
+        <div class="onboarding-icon" id="onboardingIcon">👋</div>
+        <h3 id="onboardingTitle"></h3>
+        <p id="onboardingText"></p>
+        <div class="onboarding-dots" id="onboardingDots"></div>
+        <div class="onboarding-actions">
+          <button id="onboardingSkip" class="ghost-button" type="button">Skip</button>
+          <div class="onboarding-nav">
+            <button id="onboardingBack" class="secondary-button" type="button">Back</button>
+            <button id="onboardingNext" class="primary-button" type="button">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tourOverlay" class="tour-overlay hidden">
+      <div id="tourHighlight" class="tour-highlight"></div>
+      <div id="tourCard" class="tour-card">
+        <h4 id="tourTitle"></h4>
+        <p id="tourText"></p>
+        <div class="tour-actions">
+          <span id="tourStepCount" class="tour-step-count"></span>
+          <button id="tourSkip" class="ghost-button" type="button">Skip Tour</button>
+          <button id="tourNext" class="primary-button" type="button">Next</button>
+        </div>
+      </div>
     </div>
 
     <div id="toast" class="toast"></div>

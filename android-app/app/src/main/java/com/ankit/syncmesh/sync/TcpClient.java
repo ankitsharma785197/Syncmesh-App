@@ -28,7 +28,7 @@ public class TcpClient {
             writer.write(payload.toString());
             writer.write('\n');
             writer.flush();
-            SyncLog.i(TAG, "SEND " + ipAddress + ":" + port + " -> " + payload);
+            SyncLog.i(TAG, "SEND " + ipAddress + ":" + port + " -> " + TcpServer.summarize(payload));
 
             if (!expectResponse) {
                 return null;
@@ -40,8 +40,9 @@ public class TcpClient {
             if (line == null || line.trim().isEmpty()) {
                 return null;
             }
-            SyncLog.i(TAG, "RECV " + ipAddress + ":" + port + " -> " + line);
-            return new JSONObject(line);
+            JSONObject response = new JSONObject(line);
+            SyncLog.i(TAG, "RECV " + ipAddress + ":" + port + " -> " + TcpServer.summarize(response));
+            return response;
         } finally {
             try {
                 socket.close();

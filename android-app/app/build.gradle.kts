@@ -18,8 +18,8 @@ android {
         applicationId = "com.ankit.syncmesh"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 20
+        versionName = "2.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -46,7 +46,7 @@ android {
 
     splits {
         abi {
-            isEnable = true
+            isEnable = !gradle.startParameter.taskNames.any { it.contains("bundle", ignoreCase = true) }
             reset()
             include("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
             isUniversalApk = true
@@ -62,6 +62,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.livedata)
     implementation(libs.androidx.recyclerview)
+    implementation("androidx.documentfile:documentfile:1.0.1")
+    implementation("com.google.android.play:app-update:2.1.0")
     implementation(libs.material)
     implementation(libs.zxing.core)
     implementation(libs.zxing.embedded)

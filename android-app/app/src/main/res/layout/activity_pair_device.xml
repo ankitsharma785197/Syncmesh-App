@@ -10,13 +10,15 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/syncmesh_surface"
-        android:elevation="0dp"
-        android:navigationIcon="@android:drawable/ic_menu_close_clear_cancel"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        android:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="?attr/colorOnSurface"
         app:title="@string/pair_activity_title"
-        app:titleTextColor="@color/syncmesh_text" />
+        app:titleTextAppearance="@style/TextAppearance.Syncmesh.Toolbar"
+        app:titleTextColor="?attr/colorOnSurface" />
+
+    <View style="@style/Widget.Syncmesh.Divider" android:alpha="0.5" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/pair_fragment_container"

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app_background"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorSurface"
+        android:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="?attr/colorOnSurface"
+        app:title="@string/transfer_history_title"
+        app:titleTextAppearance="@style/TextAppearance.Syncmesh.Toolbar"
+        app:titleTextColor="?attr/colorOnSurface" />
+
+    <View style="@style/Widget.Syncmesh.Divider" android:alpha="0.5" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Syncmesh.TextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screen_margin"
+        android:layout_marginTop="@dimen/space_md"
+        android:hint="@string/transfer_search_hint"
+        app:startIconDrawable="@drawable/ic_search">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/text_history_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/space_md"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/screen_margin"
+        android:paddingVertical="@dimen/space_3xl"
+        android:text="@string/empty_transfer_history"
+        android:textAppearance="@style/TextAppearance.Syncmesh.Body"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/ic_file"
+        app:drawableTint="?attr/colorOnSurfaceVariant" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_history"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingHorizontal="@dimen/screen_margin"
+        android:paddingTop="@dimen/space_md"
+        android:paddingBottom="@dimen/space_2xl" />
+</LinearLayout>

@@ -48,8 +48,8 @@ public class SyncCoordinator {
                 }
             };
 
-    private TcpServer tcpServer;
-    private UdpDiscoveryManager udpDiscoveryManager;
+    private volatile TcpServer tcpServer;
+    private volatile UdpDiscoveryManager udpDiscoveryManager;
 
     private SyncCoordinator(Context context) {
         appContext = context.getApplicationContext();
@@ -86,6 +86,14 @@ public class SyncCoordinator {
             tcpServer.start();
             udpDiscoveryManager.start();
             clipboardSyncManager.startForegroundMonitoring(localClipboardListener);
+            // File transfer rides alongside the sync runtime on its own port; a failure
+            // here must never take the clipboard runtime down.
+            try {
+                com.ankit.syncmesh.transfer.FileTransferManager
+                        .getInstance(appContext).startServer();
+            } catch (Exception exception) {
+                SyncLog.e(TAG, "Failed to start file transfer server", exception);
+            }
             SyncLog.i(TAG, "Sync runtime started");
         }
         refreshSnapshot();
@@ -103,6 +111,12 @@ public class SyncCoordinator {
                 udpDiscoveryManager = null;
             }
             repository.clearNearbyDevices();
+            try {
+                com.ankit.syncmesh.transfer.FileTransferManager
+                        .getInstance(appContext).stopServer();
+            } catch (Exception exception) {
+                SyncLog.e(TAG, "Failed to stop file transfer server", exception);
+            }
             SyncLog.i(TAG, "Sync runtime stopped");
         }
         refreshSnapshot();
@@ -127,12 +141,22 @@ public class SyncCoordinator {
     }
 
     public void refreshSnapshot() {
-        ServiceSnapshot snapshot = repository.buildDefaultSnapshot();
-        snapshot.serviceRunning = runtimeRunning.get();
-        snapshot.tcpRunning = tcpServer != null && tcpServer.isRunning();
-        snapshot.udpRunning = udpDiscoveryManager != null && udpDiscoveryManager.isRunning();
-        snapshot.accessibilityEnabled = false;
-        repository.updateServiceSnapshot(snapshot);
+        // buildDefaultSnapshot() performs a SQLite query and a network-interface
+        // enumeration; run it off the calling (usually main) thread to avoid ANR/jank.
+        // The result is published via LiveData.postValue, which is already async-safe.
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                ServiceSnapshot snapshot = repository.buildDefaultSnapshot();
+                snapshot.serviceRunning = runtimeRunning.get();
+                TcpServer server = tcpServer;
+                UdpDiscoveryManager discovery = udpDiscoveryManager;
+                snapshot.tcpRunning = server != null && server.isRunning();
+                snapshot.udpRunning = discovery != null && discovery.isRunning();
+                snapshot.accessibilityEnabled = false;
+                repository.updateServiceSnapshot(snapshot);
+            }
+        });
     }
 
     public void sendPairRequest(final String ipAddress, final int port, final String pairingCode,
@@ -216,6 +240,34 @@ public class SyncCoordinator {
         });
     }
 
+    /**
+     * Removes a paired device locally and best-effort notifies it to remove us too, so an
+     * unpair on one side propagates to the other. Removal is applied regardless of whether
+     * the notice reaches the peer (it may be offline).
+     */
+    public void removePairedDeviceAndNotify(final PairedDevice device) {
+        repository.removePairedDevice(device.deviceId);
+        refreshSnapshot();
+        if (device.ipAddress == null || device.ipAddress.trim().isEmpty()) {
+            return;
+        }
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONObject payload = new JSONObject();
+                    payload.put("type", "unpair");
+                    payload.put("fromDeviceId", repository.getLocalDeviceId());
+                    payload.put("fromDeviceName", repository.getLocalDeviceName());
+                    payload.put("timestamp", System.currentTimeMillis());
+                    new TcpClient().sendMessage(device.ipAddress, device.port, payload, false);
+                } catch (Exception exception) {
+                    SyncLog.w(TAG, "Could not deliver unpair notice to " + device.deviceId);
+                }
+            }
+        });
+    }
+
     public void sendManualClipboardText(final String text, final ActionCallback callback) {
         executorService.execute(new Runnable() {
             @Override
@@ -277,6 +329,14 @@ public class SyncCoordinator {
             return;
         }
 
+        // Respect the auto-send toggle: when disabled, we still record the copy locally but
+        // never push it to paired devices automatically. Manual sends (keyboard toolbar / app
+        // actions) go through sendManualClipboardText and are intentionally not gated here.
+        if (!repository.getPreferences().isKeyboardAutoSendEnabled()) {
+            SyncLog.d(TAG, "Auto-send disabled; skipping clipboard broadcast");
+            return;
+        }
+
         clipboardSyncManager.markRecentEvent(eventId);
         try {
             final JSONObject payload = buildClipboardPayload(text, eventId, timestamp);
@@ -313,6 +373,10 @@ public class SyncCoordinator {
         }
         if ("ping".equals(type)) {
             return handlePing(message);
+        }
+        if ("unpair".equals(type)) {
+            handleUnpair(message);
+            return null;
         }
         SyncLog.w(TAG, "Unhandled TCP message type: " + type);
         return null;
@@ -385,6 +449,23 @@ public class SyncCoordinator {
             clipboardSyncManager.applyRemoteClipboard(text, eventId, entry.sourceDeviceName);
         } catch (Exception exception) {
             SyncLog.e(TAG, "Failed to process remote clipboard", exception);
+        }
+    }
+
+    private void handleUnpair(JSONObject message) {
+        try {
+            String senderDeviceId = message.optString("fromDeviceId");
+            if (!repository.isPairedDevice(senderDeviceId)) {
+                return;
+            }
+            String senderName = message.optString("fromDeviceName");
+            repository.removePairedDevice(senderDeviceId);
+            SyncLog.i(TAG, "Peer removed pairing: " + senderName);
+            com.ankit.syncmesh.util.NotificationHelper.showUnpairedNotification(
+                    appContext, senderName);
+            refreshSnapshot();
+        } catch (Exception exception) {
+            SyncLog.e(TAG, "Failed to process unpair notice", exception);
         }
     }
 

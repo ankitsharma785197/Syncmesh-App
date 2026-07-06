@@ -51,6 +51,28 @@ class SyncMeshDatabase {
         key TEXT PRIMARY KEY,
         value TEXT NOT NULL
       );
+
+      CREATE TABLE IF NOT EXISTS sync_logs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        level TEXT NOT NULL,
+        message TEXT NOT NULL,
+        created_at INTEGER NOT NULL
+      );
+
+      CREATE TABLE IF NOT EXISTS transfer_history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        transfer_id TEXT NOT NULL,
+        direction TEXT NOT NULL,
+        device_id TEXT,
+        device_name TEXT,
+        file_count INTEGER NOT NULL DEFAULT 0,
+        total_size INTEGER NOT NULL DEFAULT 0,
+        transferred_bytes INTEGER NOT NULL DEFAULT 0,
+        status TEXT NOT NULL,
+        message TEXT,
+        files_json TEXT,
+        created_at INTEGER NOT NULL
+      );
     `);
     this.persist();
   }
@@ -204,6 +226,69 @@ class SyncMeshDatabase {
         direction,
         created_at AS createdAt
       FROM clipboard_history
+      ORDER BY created_at DESC
+      LIMIT ?
+    `, [Math.min(safeNumber(limit, 100), 500)]);
+  }
+
+  clearClipboardHistory() {
+    this.run('DELETE FROM clipboard_history');
+  }
+
+  // Persisted only while debug mode is unlocked (mirrors the Android app).
+  addSyncLog(level, message, createdAt) {
+    this.run(`
+      INSERT INTO sync_logs (level, message, created_at)
+      VALUES (?, ?, ?)
+    `, [safeString(level, 'info'), safeString(message), safeNumber(createdAt, Date.now())]);
+  }
+
+  clearSyncLogs() {
+    this.run('DELETE FROM sync_logs');
+  }
+
+  clearTransferHistory() {
+    this.run('DELETE FROM transfer_history');
+  }
+
+  addTransferHistory(item) {
+    this.run(`
+      INSERT INTO transfer_history (
+        transfer_id, direction, device_id, device_name, file_count,
+        total_size, transferred_bytes, status, message, files_json, created_at
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `, [
+      safeString(item?.transferId),
+      safeString(item?.direction, 'unknown'),
+      item?.deviceId === undefined ? null : safeString(item.deviceId),
+      item?.deviceName === undefined ? null : safeString(item.deviceName),
+      safeNumber(item?.fileCount, 0),
+      safeNumber(item?.totalSize, 0),
+      safeNumber(item?.transferredBytes, 0),
+      safeString(item?.status, 'unknown'),
+      item?.message === undefined ? null : safeString(item.message),
+      item?.filesJson === undefined ? null : safeString(item.filesJson),
+      safeNumber(item?.createdAt, Date.now())
+    ]);
+  }
+
+  listTransferHistory(limit = 100) {
+    return this.all(`
+      SELECT
+        id,
+        transfer_id AS transferId,
+        direction,
+        device_id AS deviceId,
+        device_name AS deviceName,
+        file_count AS fileCount,
+        total_size AS totalSize,
+        transferred_bytes AS transferredBytes,
+        status,
+        message,
+        files_json AS filesJson,
+        created_at AS createdAt
+      FROM transfer_history
       ORDER BY created_at DESC
       LIMIT ?
     `, [Math.min(safeNumber(limit, 100), 500)]);

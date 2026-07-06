@@ -96,17 +96,23 @@ public class ClipboardSyncManager {
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                applyingRemoteClipboard = true;
-                lastAppliedRemoteText = text;
-                lastAppliedRemoteAt = System.currentTimeMillis();
-                lastObservedText = text;
-                lastObservedAt = lastAppliedRemoteAt;
+                // Mutate the dedup flags under the same monitor used by
+                // handleClipboardChanged() so the reader thread sees consistent state.
+                synchronized (ClipboardSyncManager.this) {
+                    applyingRemoteClipboard = true;
+                    lastAppliedRemoteText = text;
+                    lastAppliedRemoteAt = System.currentTimeMillis();
+                    lastObservedText = text;
+                    lastObservedAt = lastAppliedRemoteAt;
+                }
                 clipboardManager.setPrimaryClip(ClipData.newPlainText("SyncMesh", text));
                 NotificationHelper.showClipboardNotification(appContext, fromDeviceName, text);
                 mainHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        applyingRemoteClipboard = false;
+                        synchronized (ClipboardSyncManager.this) {
+                            applyingRemoteClipboard = false;
+                        }
                     }
                 }, DUPLICATE_WINDOW_MS);
             }

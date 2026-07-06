@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/screen_margin">
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Syncmesh.Card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/card_padding">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="@dimen/avatar_md"
+                    android:layout_height="@dimen/avatar_md"
+                    android:background="@drawable/bg_icon_tonal">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_md"
+                        android:layout_height="@dimen/icon_md"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/transfer_incoming_dialog_title"
+                        app:srcCompat="@drawable/ic_download"
+                        app:tint="?attr/colorPrimary" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_md"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/transfer_incoming_dialog_title"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Title" />
+
+                    <TextView
+                        android:id="@+id/text_incoming_sender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xxs"
+                        android:ellipsize="middle"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Caption"
+                        tools:text="From Pixel 8 Pro" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_incoming_files"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:background="@drawable/bg_panel"
+                android:maxHeight="320dp"
+                android:overScrollMode="never"
+                android:padding="@dimen/space_md" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_md"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/transfer_total_label"
+                    android:textAppearance="@style/TextAppearance.Syncmesh.Caption" />
+
+                <TextView
+                    android:id="@+id/text_incoming_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle"
+                    android:textStyle="bold"
+                    tools:text="3 files · 24 MB" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xl"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_incoming_reject"
+                    style="@style/Widget.Syncmesh.Button.Outlined"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_sm"
+                    android:layout_weight="1"
+                    android:text="@string/transfer_action_reject" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_incoming_accept"
+                    style="@style/Widget.Syncmesh.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_sm"
+                    android:layout_weight="1"
+                    android:text="@string/transfer_action_accept" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_incoming_cancel"
+                style="@style/Widget.Syncmesh.Button.Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xs"
+                android:text="@string/action_cancel" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

@@ -39,6 +39,11 @@
         </activity>
 
         <activity
+            android:name=".ui.OnboardingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Syncmesh" />
+
+        <activity
             android:name=".ui.QrScannerActivity"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -67,6 +72,28 @@
             android:exported="false"
             android:theme="@style/Theme.Syncmesh"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.FileTransferActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Syncmesh"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.IncomingTransferActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@style/Theme.Syncmesh" />
+
+        <activity
+            android:name=".ui.TransferHistoryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Syncmesh"
+            android:windowSoftInputMode="adjustResize" />
+
+        <receiver
+            android:name=".transfer.TransferActionReceiver"
+            android:exported="false" />
 
         <service
             android:name=".sync.SyncForegroundService"

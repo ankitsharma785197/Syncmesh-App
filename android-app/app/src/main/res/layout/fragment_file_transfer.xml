@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:paddingBottom="@dimen/screen_padding_bottom"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/screen_margin"
+        android:paddingTop="@dimen/space_lg">
+
+        <!-- ============ Setup: pick files + device ============ -->
+        <LinearLayout
+            android:id="@+id/group_setup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_select_files"
+                style="@style/Widget.Syncmesh.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/transfer_select_files"
+                app:icon="@drawable/ic_file" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_selected_files"
+                style="@style/Widget.Syncmesh.Card"
+                android:layout_marginTop="@dimen/space_lg"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/card_padding">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/text_selected_summary"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Title"
+                            tools:text="3 files · 24 MB total" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button_clear_files"
+                            style="@style/Widget.Syncmesh.Button.Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/transfer_clear_selection" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_selected_files"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_sm"
+                        android:nestedScrollingEnabled="false"
+                        android:overScrollMode="never" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/label_choose_device"
+                style="@style/Widget.Syncmesh.SectionLabel"
+                android:layout_marginTop="@dimen/space_xl"
+                android:layout_marginBottom="@dimen/space_md"
+                android:text="@string/transfer_choose_device" />
+
+            <LinearLayout
+                android:id="@+id/group_no_devices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_panel"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/space_lg"
+                android:paddingVertical="@dimen/space_2xl"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_lg"
+                    android:layout_height="@dimen/icon_lg"
+                    android:contentDescription="@string/transfer_error_no_devices"
+                    app:srcCompat="@drawable/ic_devices"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <TextView
+                    android:id="@+id/text_no_devices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_md"
+                    android:gravity="center"
+                    android:text="@string/transfer_error_no_devices"
+                    android:textAppearance="@style/TextAppearance.Syncmesh.Body" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_pair_now"
+                    style="@style/Widget.Syncmesh.Button.Tonal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:text="@string/transfer_pair_now"
+                    app:icon="@drawable/ic_pair" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_devices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_send"
+                style="@style/Widget.Syncmesh.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_xl"
+                android:enabled="false"
+                android:text="@string/transfer_send_button"
+                app:icon="@drawable/ic_upload" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_transfer_history"
+                style="@style/Widget.Syncmesh.Button.Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:text="@string/action_transfer_history"
+                app:icon="@drawable/ic_history" />
+
+            <!-- Save location for received files -->
+            <LinearLayout
+                android:id="@+id/row_save_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:background="@drawable/bg_panel"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_lg">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_md"
+                    android:layout_height="@dimen/icon_md"
+                    android:contentDescription="@string/transfer_save_location_label"
+                    app:srcCompat="@drawable/ic_download"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_md"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/transfer_save_location_label"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Caption" />
+
+                    <TextView
+                        android:id="@+id/text_save_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_xxs"
+                        android:ellipsize="middle"
+                        android:maxLines="1"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle"
+                        tools:text="Downloads/SyncMesh" />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_change_location"
+                    style="@style/Widget.Syncmesh.Button.Text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/transfer_change_location" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ============ Progress ============ -->
+        <LinearLayout
+            android:id="@+id/group_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.google.android.material.card.MaterialCardView style="@style/Widget.Syncmesh.Card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/card_padding">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="@dimen/avatar_md"
+                            android:layout_height="@dimen/avatar_md"
+                            android:background="@drawable/bg_icon_tonal">
+
+                            <ImageView
+                                android:id="@+id/image_direction"
+                                android:layout_width="@dimen/icon_md"
+                                android:layout_height="@dimen/icon_md"
+                                android:layout_gravity="center"
+                                android:contentDescription="@string/transfer_title"
+                                app:srcCompat="@drawable/ic_upload"
+                                app:tint="?attr/colorPrimary" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_md"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/text_peer_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="middle"
+                                android:maxLines="1"
+                                android:textAppearance="@style/TextAppearance.Syncmesh.Title"
+                                tools:text="Pixel 8 Pro" />
+
+                            <TextView
+                                android:id="@+id/text_connection"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_xxs"
+                                android:textAppearance="@style/TextAppearance.Syncmesh.Caption"
+                                tools:text="Connected" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/text_transfer_status"
+                            style="@style/Widget.Syncmesh.Badge"
+                            android:layout_marginStart="@dimen/space_sm"
+                            tools:text="Transferring" />
+                    </LinearLayout>
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/progress_overall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_lg"
+                        app:trackCornerRadius="4dp"
+                        tools:progress="45" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_sm"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/text_overall_percent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle"
+                            tools:text="45%" />
+
+                        <TextView
+                            android:id="@+id/text_file_counter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Caption"
+                            tools:text="3 / 12 files" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_lg"
+                        android:background="@drawable/bg_panel"
+                        android:orientation="vertical"
+                        android:padding="@dimen/space_lg">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/transfer_current_file"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Caption" />
+
+                        <TextView
+                            android:id="@+id/text_current_file"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_xxs"
+                            android:ellipsize="middle"
+                            android:maxLines="1"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle"
+                            tools:text="IMG_20260703_101530.jpg" />
+
+                        <com.google.android.material.progressindicator.LinearProgressIndicator
+                            android:id="@+id/progress_current_file"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_sm"
+                            app:trackCornerRadius="4dp"
+                            tools:progress="72" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_lg"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/transfer_speed_label"
+                                android:textAppearance="@style/TextAppearance.Syncmesh.Caption" />
+
+                            <TextView
+                                android:id="@+id/text_speed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle"
+                                tools:text="4.2 MB/s" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/transfer_eta_label"
+                                android:textAppearance="@style/TextAppearance.Syncmesh.Caption" />
+
+                            <TextView
+                                android:id="@+id/text_eta"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle"
+                                tools:text="1m 12s" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_md"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/transfer_transferred_label"
+                                android:textAppearance="@style/TextAppearance.Syncmesh.Caption" />
+
+                            <TextView
+                                android:id="@+id/text_transferred"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle"
+                                tools:text="10.8 MB" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/transfer_remaining_label"
+                                android:textAppearance="@style/TextAppearance.Syncmesh.Caption" />
+
+                            <TextView
+                                android:id="@+id/text_remaining"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle"
+                                tools:text="13.4 MB" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/text_transfer_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_lg"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Body"
+                        android:visibility="gone"
+                        tools:text="Waiting for the other device to accept…"
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_lg"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_pause_resume"
+                    style="@style/Widget.Syncmesh.Button.Outlined"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_sm"
+                    android:layout_weight="1"
+                    android:text="@string/transfer_action_pause" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_cancel"
+                    style="@style/Widget.Syncmesh.Button.Outlined"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_sm"
+                    android:layout_weight="1"
+                    android:text="@string/transfer_action_cancel" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_finished_actions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_sm"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_retry"
+                    style="@style/Widget.Syncmesh.Button.Tonal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_sm"
+                    android:layout_weight="1"
+                    android:text="@string/transfer_action_retry" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_done"
+                    style="@style/Widget.Syncmesh.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_sm"
+                    android:layout_weight="1"
+                    android:text="@string/transfer_action_done" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

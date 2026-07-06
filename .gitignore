@@ -1,24 +1,35 @@
-cat > .gitignore << 'EOF'
-# Android
-*.apk
-*.aab
+# Secrets and signing material
 *.jks
 *.keystore
+*.p12
+*.pfx
+*.pem
+*.key
 local.properties
+.env
+.env.*
+google-services.json
+
+# Android generated files
+*.apk
+*.aab
 .gradle/
-build/
-*/build/
-
-# Electron
-node_modules/
-dist/
-desktop-app/node_modules/
-desktop-app/dist/
-
-# macOS
-.DS_Store
-
-# IDE
+.kotlin/
 .idea/
 *.iml
-EOF
+build/
+*/build/
+app/release/
+
+# Electron generated files
+node_modules/
+dist/
+out/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local tooling and operating-system files
+.claude/
+.DS_Store

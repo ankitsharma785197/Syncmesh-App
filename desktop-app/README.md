@@ -1,17 +1,22 @@
 # SyncMesh Desktop
 
-SyncMesh Desktop is an Electron companion app for the SyncMesh Android app. It syncs clipboard text over the local WiFi/LAN only. There is no cloud server.
+SyncMesh Desktop **v2.0** is an Electron companion app for the SyncMesh Android app (v1.2). It syncs clipboard text and transfers files over the local WiFi/LAN only. There is no cloud server.
 
 ## Protocol
 
-- TCP server: `0.0.0.0:8989`
+- TCP server: `0.0.0.0:8989` (clipboard + pairing)
 - UDP discovery: port `8990`
+- File transfer TCP server: `0.0.0.0:8991`
 - Message format: JSON object followed by `\n`
-- Supported TCP messages:
+- Supported TCP messages on 8989:
   - `pair_request`
   - `pair_response`
   - `clipboard_update`
+  - `unpair`
   - `ping`
+- File transfer messages on 8991 (wire-compatible with the Android app):
+  - `transfer_offer` → `transfer_response` → per file `file_header` + raw bytes + `file_ack` → `transfer_complete` → `transfer_result`; `transfer_cancel` from either side
+  - 64 KB streaming chunks, 2 GB per-file cap, max 500 files per offer
 
 UDP discovery announces every 3 seconds:
 
@@ -65,6 +70,11 @@ Build output is written to `dist/`.
 - Nearby devices list from UDP discovery.
 - Rejects clipboard updates from unpaired devices.
 - Debug logs in the dashboard.
+- **File transfer** (v1.2): send any files (≤2 GB each) to a paired Android device and receive files from it; accept/reject dialog, live progress with speed/ETA, pause/resume/cancel/retry, conflict-safe naming (`photo.jpg` → `photo (1).jpg`), searchable local history.
+- **Drag & drop** (v1.2): drop files anywhere in the window (or on the drop zone) to stage them for sending.
+- Received files are saved to `~/Downloads/SyncMesh/`.
+- **Unpair propagation** (v1.2): removing a paired device notifies the peer so it drops the pairing too, and vice versa.
+- **macOS-native UI** (v1.2): hidden inset title bar, sidebar vibrancy, system font, mac-style controls.
 
 ## SQLite Tables
 
@@ -101,6 +111,23 @@ settings (
 )
 ```
 
+```sql
+transfer_history (
+  id,
+  transfer_id,
+  direction,
+  device_id,
+  device_name,
+  file_count,
+  total_size,
+  transferred_bytes,
+  status,
+  message,
+  files_json,
+  created_at
+)
+```
+
 ## Pairing
 
 Manual desktop-to-Android pairing:
@@ -134,4 +161,4 @@ The desktop saves accepted devices in SQLite. Clipboard updates from devices not
 
 - macOS may require Accessibility or clipboard permissions depending on OS policy.
 - Windows Defender Firewall or macOS firewall may prompt for LAN access; allow local network traffic for SyncMesh Desktop.
-- Both devices must be on the same local network and able to reach TCP `8989` and UDP `8990`.
+- Both devices must be on the same local network and able to reach TCP `8989`, UDP `8990`, and TCP `8991` (file transfer).

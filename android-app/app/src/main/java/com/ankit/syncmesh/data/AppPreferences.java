@@ -18,6 +18,12 @@ public class AppPreferences {
     private static final String KEY_LAST_KEYBOARD_SENT_TEXT = "last_keyboard_sent_text";
     private static final String KEY_LAST_KEYBOARD_SENT_AT = "last_keyboard_sent_at";
     private static final String KEY_KEYBOARD_LANGUAGE = "keyboard_language";
+    private static final String KEY_ONBOARDING_COMPLETE = "onboarding_complete";
+    private static final String KEY_TOUR_COMPLETE = "tour_complete";
+    private static final String KEY_TRANSFER_TOUR_COMPLETE = "transfer_tour_complete";
+    private static final String KEY_TRANSFER_SAVE_URI = "transfer_save_uri";
+    private static final String KEY_DEBUG_UNLOCKED = "debug_unlocked";
+    private static final String KEY_THEME_MODE = "theme_mode";
 
     private final SharedPreferences preferences;
     private final SecureRandom secureRandom = new SecureRandom();
@@ -96,5 +102,67 @@ public class AppPreferences {
 
     public void setKeyboardLanguage(String languageCode) {
         preferences.edit().putString(KEY_KEYBOARD_LANGUAGE, languageCode).apply();
+    }
+
+    public boolean isOnboardingComplete() {
+        return preferences.getBoolean(KEY_ONBOARDING_COMPLETE, false);
+    }
+
+    public void setOnboardingComplete(boolean complete) {
+        preferences.edit().putBoolean(KEY_ONBOARDING_COMPLETE, complete).apply();
+    }
+
+    public boolean isTourComplete() {
+        return preferences.getBoolean(KEY_TOUR_COMPLETE, false);
+    }
+
+    public void setTourComplete(boolean complete) {
+        preferences.edit().putBoolean(KEY_TOUR_COMPLETE, complete).apply();
+    }
+
+    public boolean isTransferTourComplete() {
+        return preferences.getBoolean(KEY_TRANSFER_TOUR_COMPLETE, false);
+    }
+
+    public void setTransferTourComplete(boolean complete) {
+        preferences.edit().putBoolean(KEY_TRANSFER_TOUR_COMPLETE, complete).apply();
+    }
+
+    /**
+     * Persisted SAF tree URI for received files, or null to use the default
+     * Downloads/SyncMesh location.
+     */
+    public String getTransferSaveUri() {
+        return preferences.getString(KEY_TRANSFER_SAVE_URI, null);
+    }
+
+    public void setTransferSaveUri(String treeUri) {
+        if (treeUri == null) {
+            preferences.edit().remove(KEY_TRANSFER_SAVE_URI).apply();
+        } else {
+            preferences.edit().putString(KEY_TRANSFER_SAVE_URI, treeUri).apply();
+        }
+    }
+
+    /** Whether the hidden debug console has been unlocked via the version easter egg. */
+    public boolean isDebugUnlocked() {
+        return preferences.getBoolean(KEY_DEBUG_UNLOCKED, false);
+    }
+
+    public void setDebugUnlocked(boolean unlocked) {
+        preferences.edit().putBoolean(KEY_DEBUG_UNLOCKED, unlocked).apply();
+    }
+
+    /**
+     * Stored theme mode, expressed as an AppCompatDelegate.MODE_NIGHT_* constant.
+     * Defaults to following the system setting.
+     */
+    public int getThemeMode() {
+        return preferences.getInt(KEY_THEME_MODE,
+                androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+    }
+
+    public void setThemeMode(int mode) {
+        preferences.edit().putInt(KEY_THEME_MODE, mode).apply();
     }
 }

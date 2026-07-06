@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-   Sample backup rules file; uncomment and customize as necessary.
+   Auto Backup rules (used as fullBackupContent, primarily API < 31).
+   Sensitive SyncMesh data is excluded so the pairing code and clipboard history are not
+   copied into cloud backups. Keyboard (HeliBoard) settings live in the default preferences
+   and are intentionally left backed up.
    See https://developer.android.com/guide/topics/data/autobackup
-   for details.
-   Note: This file is ignored for devices older than API 31
-   See https://developer.android.com/about/versions/12/backup-restore
 -->
 <full-backup-content>
-    <!--
-   <include domain="sharedpref" path="."/>
-   <exclude domain="sharedpref" path="device.xml"/>
--->
+    <exclude domain="database" path="syncmesh.db" />
+    <exclude domain="sharedpref" path="syncmesh_prefs.xml" />
+    <exclude domain="sharedpref" path="syncmesh_keyboard_bridge.xml" />
 </full-backup-content>

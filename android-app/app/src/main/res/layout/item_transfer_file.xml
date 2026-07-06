@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingVertical="@dimen/space_sm">
+
+    <ImageView
+        android:layout_width="@dimen/icon_sm"
+        android:layout_height="@dimen/icon_sm"
+        android:contentDescription="@string/transfer_files_label"
+        app:srcCompat="@drawable/ic_file"
+        app:tint="?attr/colorOnSurfaceVariant" />
+
+    <TextView
+        android:id="@+id/text_file_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_sm"
+        android:layout_weight="1"
+        android:ellipsize="middle"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle"
+        tools:text="document.pdf" />
+
+    <TextView
+        android:id="@+id/text_file_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_sm"
+        android:textAppearance="@style/TextAppearance.Syncmesh.Caption"
+        tools:text="1.2 MB" />
+</LinearLayout>

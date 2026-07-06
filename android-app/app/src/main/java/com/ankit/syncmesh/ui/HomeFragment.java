@@ -59,11 +59,43 @@ public class HomeFragment extends Fragment {
         binding.buttonGoPair.setOnClickListener(v -> navigateTo(R.id.nav_pair));
         binding.buttonGoDevices.setOnClickListener(v -> navigateTo(R.id.nav_devices));
         binding.buttonGoHistory.setOnClickListener(v -> navigateTo(R.id.nav_history));
-        binding.buttonGoDebug.setOnClickListener(v -> openDebugScreen());
+        binding.buttonGoTransfer.setOnClickListener(v -> navigateTo(R.id.nav_transfer));
+        setupVersionEasterEgg();
 
         repository.getServiceSnapshotLiveData().observe(getViewLifecycleOwner(), this::bindSnapshot);
+        // Read-only observers used purely to present existing data on the home screen.
+        repository.getNearbyDevicesLiveData().observe(getViewLifecycleOwner(), this::bindNearbyCount);
+        repository.getClipboardHistoryLiveData().observe(getViewLifecycleOwner(), this::bindRecentClip);
+        binding.cardRecentClip.setOnClickListener(v -> navigateTo(R.id.nav_history));
         coordinator.refreshSnapshot();
         updateKeyboardCard();
+    }
+
+    private void bindNearbyCount(java.util.List<com.ankit.syncmesh.model.DiscoveredDevice> devices) {
+        if (binding == null) {
+            return;
+        }
+        binding.textNearbyCount.setText(String.valueOf(devices == null ? 0 : devices.size()));
+    }
+
+    private void bindRecentClip(java.util.List<com.ankit.syncmesh.model.ClipboardEntry> entries) {
+        if (binding == null) {
+            return;
+        }
+        if (entries == null || entries.isEmpty()) {
+            binding.textRecentClipValue.setText(getString(R.string.home_recent_clip_empty));
+            binding.textRecentClipMeta.setText(getString(R.string.tab_history));
+            return;
+        }
+        com.ankit.syncmesh.model.ClipboardEntry entry = entries.get(0);
+        binding.textRecentClipValue.setText(
+                com.ankit.syncmesh.util.DisplayUtils.safe(entry.text, getString(R.string.home_recent_clip_empty)));
+        boolean isLocal = "local".equals(entry.direction);
+        String origin = isLocal
+                ? getString(R.string.status_local)
+                : com.ankit.syncmesh.util.DisplayUtils.safe(entry.sourceDeviceName, getString(R.string.status_remote));
+        binding.textRecentClipMeta.setText(origin + " · "
+                + com.ankit.syncmesh.util.DisplayUtils.formatRelativeTime(entry.createdAt));
     }
 
     @Override
@@ -186,11 +218,43 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void openDebugScreen() {
-        if (requireActivity() instanceof MainActivity) {
-            ((MainActivity) requireActivity()).openDebugScreen();
-        } else {
-            startActivity(new Intent(requireContext(), DebugActivity.class));
+    // ---- Version footer + hidden debug easter egg ----
+    private static final int DEBUG_UNLOCK_TAPS = 7;
+    private int versionTapCount;
+    private long lastVersionTapAt;
+
+    private void setupVersionEasterEgg() {
+        String version;
+        try {
+            version = requireContext().getPackageManager()
+                    .getPackageInfo(requireContext().getPackageName(), 0).versionName;
+        } catch (Exception exception) {
+            version = "";
+        }
+        binding.textAppVersion.setText(getString(R.string.home_version_format, version));
+        binding.textAppVersion.setOnClickListener(v -> onVersionTapped());
+    }
+
+    private void onVersionTapped() {
+        // Tapping the version only unlocks debug; it never opens the console (that lives in
+        // the toolbar menu once unlocked).
+        if (repository.getPreferences().isDebugUnlocked()) {
+            return;
+        }
+        long now = System.currentTimeMillis();
+        versionTapCount = (now - lastVersionTapAt < 1500) ? versionTapCount + 1 : 1;
+        lastVersionTapAt = now;
+
+        int remaining = DEBUG_UNLOCK_TAPS - versionTapCount;
+        if (remaining <= 0) {
+            repository.getPreferences().setDebugUnlocked(true);
+            com.ankit.syncmesh.util.SyncLog.setPersistToDb(true);
+            versionTapCount = 0;
+            Toast.makeText(requireContext(), R.string.toast_debug_unlocked, Toast.LENGTH_LONG).show();
+            requireActivity().invalidateOptionsMenu();
+        } else if (remaining <= 3) {
+            com.ankit.syncmesh.util.Toasts.brief(requireContext(),
+                    getString(R.string.toast_debug_unlock_progress, remaining));
         }
     }
 

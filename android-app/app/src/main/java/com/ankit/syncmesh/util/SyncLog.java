@@ -7,12 +7,25 @@ import com.ankit.syncmesh.data.AppRepository;
 
 public final class SyncLog {
     private static Context appContext;
+    // Persisting logs to the DB is opt-in: only while the debug console is unlocked.
+    // Logcat output is always emitted regardless of this flag.
+    private static volatile boolean persistToDb;
 
     private SyncLog() {
     }
 
     public static void init(Context context) {
         appContext = context.getApplicationContext();
+        try {
+            persistToDb = AppRepository.getInstance(appContext).getPreferences().isDebugUnlocked();
+        } catch (Exception ignored) {
+            persistToDb = false;
+        }
+    }
+
+    /** Toggled when the user enables/disables the debug console. */
+    public static void setPersistToDb(boolean enabled) {
+        persistToDb = enabled;
     }
 
     public static void d(String tag, String message) {
@@ -46,7 +59,7 @@ public final class SyncLog {
             Log.e(tag, message, throwable);
         }
 
-        if (appContext == null) {
+        if (appContext == null || !persistToDb) {
             return;
         }
 

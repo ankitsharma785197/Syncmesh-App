@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
     android:clipToPadding="false"
     android:fillViewport="true"
-    android:paddingBottom="24dp">
+    android:paddingBottom="@dimen/screen_padding_bottom"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingHorizontal="@dimen/screen_margin"
+        android:paddingTop="@dimen/space_lg">
 
+        <!-- ============ Service status hero ============ -->
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/syncmesh_surface"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/syncmesh_outline"
-            app:strokeWidth="1dp">
+            style="@style/Widget.Syncmesh.Card"
+            app:cardBackgroundColor="?attr/colorPrimaryContainer"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="@dimen/card_padding">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -34,194 +35,175 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
+                    <FrameLayout
+                        android:layout_width="@dimen/avatar_lg"
+                        android:layout_height="@dimen/avatar_lg"
+                        android:background="@drawable/bg_icon_neutral">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_lg"
+                            android:layout_height="@dimen/icon_lg"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/status_service"
+                            app:srcCompat="@drawable/ic_sync"
+                            app:tint="?attr/colorPrimary" />
+                    </FrameLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_lg"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/app_name"
-                            android:textColor="@color/syncmesh_text"
-                            android:textSize="30sp"
-                            android:textStyle="bold" />
+                            android:text="@string/home_status_card_title"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Title" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="@dimen/space_xxs"
                             android:text="@string/home_title"
-                            android:textColor="@color/syncmesh_text_secondary"
-                            android:textSize="15sp" />
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Caption"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/text_service_state"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/Widget.Syncmesh.Badge"
                         android:background="@drawable/bg_status_badge_idle"
-                        android:paddingStart="12dp"
-                        android:paddingTop="6dp"
-                        android:paddingEnd="12dp"
-                        android:paddingBottom="6dp"
                         android:textColor="@color/syncmesh_text_secondary"
-                        android:textStyle="bold" />
+                        tools:text="Stopped" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/text_service_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/home_service_stopped_detail"
-                    android:textColor="@color/syncmesh_text_secondary"
-                    android:textSize="14sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_metric_panel"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/status_current_ip"
-                            android:textColor="@color/syncmesh_text_secondary"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/text_current_ip"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:textColor="@color/syncmesh_text"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_metric_panel"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/status_device_id"
-                            android:textColor="@color/syncmesh_text_secondary"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/text_device_id"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:textColor="@color/syncmesh_text"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_metric_panel"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/status_pairing_code"
-                            android:textColor="@color/syncmesh_text_secondary"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/text_pairing_code"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:textColor="@color/syncmesh_text"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_metric_panel"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/status_paired_devices"
-                            android:textColor="@color/syncmesh_text_secondary"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/text_paired_count"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:textColor="@color/syncmesh_text"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:textAppearance="@style/TextAppearance.Syncmesh.Body"
+                    tools:text="Start sync to listen on port 8989." />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_start_stop"
-                    style="@style/Widget.Material3.Button"
+                    style="@style/Widget.Syncmesh.Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/action_start_sync" />
+                    android:layout_marginTop="@dimen/space_lg"
+                    app:icon="@drawable/ic_sync"
+                    tools:text="Start Sync" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/syncmesh_surface"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/syncmesh_outline"
-            app:strokeWidth="1dp">
+        <!-- ============ This device ============ -->
+        <TextView
+            style="@style/Widget.Syncmesh.SectionLabel"
+            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginBottom="@dimen/space_md"
+            android:text="@string/pair_my_device_title" />
+
+        <com.google.android.material.card.MaterialCardView style="@style/Widget.Syncmesh.Card">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="@dimen/card_padding">
+
+                <!-- counts row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/space_sm"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_metric_tile"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/space_lg">
+
+                        <TextView
+                            android:id="@+id/text_paired_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Metric"
+                            tools:text="2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/status_paired_devices"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Caption" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/space_sm"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_metric_tile"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/space_lg">
+
+                        <TextView
+                            android:id="@+id/text_nearby_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Metric"
+                            tools:text="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pair_nearby_title"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Caption" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- IP row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_md"
+                        android:layout_height="@dimen/icon_md"
+                        android:contentDescription="@string/status_current_ip"
+                        app:srcCompat="@drawable/ic_router"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_md"
+                        android:layout_weight="1"
+                        android:text="@string/status_current_ip"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle" />
+
+                    <TextView
+                        android:id="@+id/text_current_ip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Mono"
+                        tools:text="192.168.1.4" />
+                </LinearLayout>
+
+                <View
+                    style="@style/Widget.Syncmesh.Divider"
+                    android:layout_marginVertical="@dimen/space_md"
+                    android:alpha="0.5" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -229,226 +211,344 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
+                    <ImageView
+                        android:layout_width="@dimen/icon_md"
+                        android:layout_height="@dimen/icon_md"
+                        android:contentDescription="@string/status_device_id"
+                        app:srcCompat="@drawable/ic_devices"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_md"
                         android:layout_weight="1"
-                        android:text="@string/home_keyboard_title"
-                        android:textColor="@color/syncmesh_text"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:text="@string/status_device_id"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle" />
 
                     <TextView
-                        android:id="@+id/text_keyboard_experimental"
+                        android:id="@+id/text_device_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Mono"
+                        tools:text="d57e8454" />
+                </LinearLayout>
+
+                <View
+                    style="@style/Widget.Syncmesh.Divider"
+                    android:layout_marginVertical="@dimen/space_md"
+                    android:alpha="0.5" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_md"
+                        android:layout_height="@dimen/icon_md"
+                        android:contentDescription="@string/status_pairing_code"
+                        app:srcCompat="@drawable/ic_key"
+                        app:tint="?attr/colorPrimary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_md"
+                        android:layout_weight="1"
+                        android:text="@string/status_pairing_code"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle" />
+
+                    <TextView
+                        android:id="@+id/text_pairing_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.15"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Title"
+                        android:textColor="?attr/colorPrimary"
+                        tools:text="336185" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ============ Recent clipboard ============ -->
+        <TextView
+            style="@style/Widget.Syncmesh.SectionLabel"
+            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginBottom="@dimen/space_md"
+            android:text="@string/home_recent_clip_title" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_recent_clip"
+            style="@style/Widget.Syncmesh.Card.Interactive">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/card_padding">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_sm"
+                        android:layout_height="@dimen/icon_sm"
+                        android:contentDescription="@string/tab_history"
+                        app:srcCompat="@drawable/ic_history"
+                        app:tint="?attr/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/text_recent_clip_meta"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_sm"
+                        android:layout_weight="1"
+                        android:textAppearance="@style/TextAppearance.Syncmesh.Caption"
+                        tools:text="Local · just now" />
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_sm"
+                        android:layout_height="@dimen/icon_sm"
+                        android:contentDescription="@string/action_history"
+                        android:rotation="180"
+                        app:srcCompat="@drawable/ic_arrow_back"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/text_recent_clip_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_sm"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@string/empty_history"
+                    android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ============ Keyboard add-on ============ -->
+        <TextView
+            style="@style/Widget.Syncmesh.SectionLabel"
+            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginBottom="@dimen/space_md"
+            android:text="@string/home_keyboard_title" />
+
+        <com.google.android.material.card.MaterialCardView style="@style/Widget.Syncmesh.Card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/card_padding">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="@dimen/avatar_md"
+                        android:layout_height="@dimen/avatar_md"
+                        android:background="@drawable/bg_icon_secondary">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_md"
+                            android:layout_height="@dimen/icon_md"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/home_keyboard_title"
+                            app:srcCompat="@drawable/ic_keyboard"
+                            app:tint="?attr/colorSecondary" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_md"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/keyboard_service_name"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Title" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_florisboard_based"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Caption" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/text_keyboard_status"
+                        style="@style/Widget.Syncmesh.Badge"
                         android:background="@drawable/bg_status_badge_idle"
-                        android:paddingStart="12dp"
-                        android:paddingTop="6dp"
-                        android:paddingEnd="12dp"
-                        android:paddingBottom="6dp"
-                        android:text="@string/label_florisboard_based"
                         android:textColor="@color/syncmesh_text_secondary"
-                        android:textStyle="bold" />
+                        tools:text="Not enabled" />
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="@dimen/space_md"
                     android:text="@string/home_keyboard_summary"
-                    android:textColor="@color/syncmesh_text_secondary"
-                    android:textSize="14sp" />
+                    android:textAppearance="@style/TextAppearance.Syncmesh.Body" />
 
+                <!-- auto-send switch row -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/bg_metric_panel"
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:background="@drawable/bg_panel"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:padding="@dimen/space_lg">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/status_keyboard"
-                            android:textColor="@color/syncmesh_text_secondary"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/text_keyboard_status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:background="@drawable/bg_status_badge_idle"
-                            android:paddingStart="12dp"
-                            android:paddingTop="6dp"
-                            android:paddingEnd="12dp"
-                            android:paddingBottom="6dp"
-                            android:textColor="@color/syncmesh_text_secondary"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/setting_keyboard_auto_send_title"
-                            android:textColor="@color/syncmesh_text_secondary"
-                            android:textSize="12sp" />
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Subtitle"
+                            android:textStyle="bold" />
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/text_keyboard_auto_send_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/text_keyboard_auto_send_value"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="10dp"
-                                android:textColor="@color/syncmesh_text"
-                                android:textStyle="bold" />
-
-                            <com.google.android.material.materialswitch.MaterialSwitch
-                                android:id="@+id/switch_keyboard_auto_send"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
+                            android:layout_marginTop="@dimen/space_xxs"
+                            android:textAppearance="@style/TextAppearance.Syncmesh.Caption"
+                            tools:text="ON" />
                     </LinearLayout>
-                </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/button_enable_keyboard"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:text="@string/action_enable_keyboard" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/button_choose_keyboard"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:text="@string/action_choose_keyboard" />
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switch_keyboard_auto_send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_keyboard_settings"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:id="@+id/button_enable_keyboard"
+                    style="@style/Widget.Syncmesh.Button.Tonal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/action_keyboard_settings" />
+                    android:layout_marginTop="@dimen/space_lg"
+                    android:text="@string/action_enable_keyboard"
+                    app:icon="@drawable/ic_add" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_sm"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_choose_keyboard"
+                        style="@style/Widget.Syncmesh.Button.Outlined"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/space_sm"
+                        android:layout_weight="1"
+                        android:text="@string/action_choose_keyboard"
+                        app:icon="@drawable/ic_keyboard" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_keyboard_settings"
+                        style="@style/Widget.Syncmesh.Button.Outlined"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_sm"
+                        android:layout_weight="1"
+                        android:text="@string/action_keyboard_settings"
+                        app:icon="@drawable/ic_settings" />
+                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
+        <!-- ============ Quick actions ============ -->
+        <TextView
+            style="@style/Widget.Syncmesh.SectionLabel"
+            android:layout_marginTop="@dimen/space_xl"
+            android:layout_marginBottom="@dimen/space_md"
+            android:text="@string/home_quick_actions_title" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/syncmesh_surface"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/syncmesh_outline"
-            app:strokeWidth="1dp">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_go_pair"
+                style="@style/Widget.Syncmesh.Button.Tonal"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
+                android:layout_marginEnd="@dimen/space_sm"
+                android:layout_weight="1"
+                android:text="@string/action_pair"
+                app:icon="@drawable/ic_pair" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/home_quick_actions_title"
-                    android:textColor="@color/syncmesh_text"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_go_devices"
+                style="@style/Widget.Syncmesh.Button.Tonal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_sm"
+                android:layout_weight="1"
+                android:text="@string/action_devices"
+                app:icon="@drawable/ic_devices" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/home_quick_actions_summary"
-                    android:textColor="@color/syncmesh_text_secondary"
-                    android:textSize="14sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_sm"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_go_history"
+                style="@style/Widget.Syncmesh.Button.Tonal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_sm"
+                android:layout_weight="1"
+                android:text="@string/action_history"
+                app:icon="@drawable/ic_history" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/button_go_pair"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="0dp"
-                        android:layout_height="64dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:text="@string/action_pair" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_go_transfer"
+                style="@style/Widget.Syncmesh.Button.Tonal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_sm"
+                android:layout_weight="1"
+                android:text="@string/tab_transfer"
+                app:icon="@drawable/ic_upload" />
+        </LinearLayout>
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/button_go_devices"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="0dp"
-                        android:layout_height="64dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:text="@string/action_devices" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/button_go_history"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="0dp"
-                        android:layout_height="64dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:text="@string/action_history" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/button_go_debug"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="0dp"
-                        android:layout_height="64dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:text="@string/action_debug" />
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+        <!-- App version. Tapping it repeatedly unlocks the hidden debug console. -->
+        <TextView
+            android:id="@+id/text_app_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_2xl"
+            android:gravity="center"
+            android:padding="@dimen/space_sm"
+            android:textAppearance="@style/TextAppearance.Syncmesh.Caption"
+            tools:text="SyncMesh v1.2" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

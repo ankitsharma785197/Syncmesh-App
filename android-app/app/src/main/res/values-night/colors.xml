@@ -1,19 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="syncmesh_primary">#60A5FA</color>
-    <color name="syncmesh_primary_container">#1E3A8A</color>
-    <color name="syncmesh_secondary">#2DD4BF</color>
-    <color name="syncmesh_secondary_container">#134E4A</color>
-    <color name="syncmesh_success">#22C55E</color>
-    <color name="syncmesh_warning">#FBBF24</color>
-    <color name="syncmesh_error">#F87171</color>
-    <color name="syncmesh_background">#020617</color>
-    <color name="syncmesh_surface">#0F172A</color>
-    <color name="syncmesh_surface_variant">#1E293B</color>
-    <color name="syncmesh_outline">#334155</color>
-    <color name="syncmesh_text">#F8FAFC</color>
-    <color name="syncmesh_text_secondary">#CBD5E1</color>
-    <color name="syncmesh_text_inverse">#020617</color>
+    <!-- =========================================================
+         Design system tokens (dark)
+         Neutral surfaces, monochrome accent inverted to near-white.
+         ========================================================= -->
+    <color name="ds_bg">#0B0B0C</color>
+    <color name="ds_bg_sidebar">#161618</color>
+    <color name="ds_bg_card">#161618</color>
+    <color name="ds_bg_input">#1F1F23</color>
+    <color name="ds_bg_hover">#26262A</color>
+    <color name="ds_border">#33333A</color>
+    <color name="ds_text">#FAFAFA</color>
+    <color name="ds_text_muted">#A1A1AA</color>
+    <color name="ds_text_subtle">#71717A</color>
+    <color name="ds_accent">#34D399</color>
+    <color name="ds_accent_soft">#0B3A2C</color>
+
+    <color name="ds_success">#34D399</color>
+    <color name="ds_warning">#FBBF24</color>
+    <color name="ds_danger">#F87171</color>
+
+    <!-- Legacy names re-pointed -->
+    <color name="syncmesh_primary">@color/ds_accent</color>
+    <color name="syncmesh_primary_container">@color/ds_accent_soft</color>
+    <color name="syncmesh_secondary">@color/ds_text_muted</color>
+    <color name="syncmesh_secondary_container">@color/ds_bg_hover</color>
+    <color name="syncmesh_success">@color/ds_success</color>
+    <color name="syncmesh_warning">@color/ds_warning</color>
+    <color name="syncmesh_error">@color/ds_danger</color>
+    <color name="syncmesh_background">@color/ds_bg</color>
+    <color name="syncmesh_surface">@color/ds_bg</color>
+    <color name="syncmesh_surface_variant">@color/ds_bg_card</color>
+    <color name="syncmesh_outline">@color/ds_border</color>
+    <color name="syncmesh_text">@color/ds_text</color>
+    <color name="syncmesh_text_secondary">@color/ds_text_muted</color>
+    <color name="syncmesh_text_inverse">@color/ds_bg</color>
+
+    <!-- Keyboard palette -->
     <color name="syncmesh_keyboard_surface">#050B18</color>
     <color name="syncmesh_keyboard_panel">#10192A</color>
     <color name="syncmesh_keyboard_key">#172133</color>
@@ -21,4 +44,16 @@
     <color name="syncmesh_keyboard_border">#31415E</color>
     <color name="syncmesh_keyboard_text">#F8FAFC</color>
     <color name="syncmesh_keyboard_text_muted">#A5B4CF</color>
+
+    <!-- Phase 2 additions -->
+    <color name="syncmesh_success_container">@color/ds_bg_hover</color>
+    <color name="syncmesh_warning_container">@color/ds_bg_hover</color>
+    <color name="syncmesh_warning_soft">#332E20</color>
+    <color name="syncmesh_error_container">@color/ds_bg_hover</color>
+    <color name="syncmesh_on_success">@color/ds_success</color>
+    <color name="syncmesh_on_warning">@color/ds_warning</color>
+    <color name="syncmesh_on_error_container">@color/ds_danger</color>
+    <color name="syncmesh_scrim">#99000000</color>
+    <color name="syncmesh_surface_container">@color/ds_bg_card</color>
+    <color name="syncmesh_shadow">#00000000</color>
 </resources>

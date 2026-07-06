@@ -1,19 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="syncmesh_primary">#2563EB</color>
-    <color name="syncmesh_primary_container">#DBEAFE</color>
-    <color name="syncmesh_secondary">#14B8A6</color>
-    <color name="syncmesh_secondary_container">#CCFBF1</color>
-    <color name="syncmesh_success">#16A34A</color>
-    <color name="syncmesh_warning">#F59E0B</color>
-    <color name="syncmesh_error">#DC2626</color>
-    <color name="syncmesh_background">#F8FAFC</color>
-    <color name="syncmesh_surface">#FFFFFF</color>
-    <color name="syncmesh_surface_variant">#E2E8F0</color>
-    <color name="syncmesh_outline">#CBD5E1</color>
-    <color name="syncmesh_text">#0F172A</color>
-    <color name="syncmesh_text_secondary">#64748B</color>
-    <color name="syncmesh_text_inverse">#FFFFFF</color>
+    <!-- =========================================================
+         Design system tokens (light)
+         Minimalist, neutral surfaces + single blue accent.
+         Elevation is expressed through surface contrast, not shadow.
+         ========================================================= -->
+    <color name="ds_bg">#FFFFFF</color>          <!-- page background -->
+    <color name="ds_bg_sidebar">#F7F7F7</color>  <!-- toolbar / bottom nav -->
+    <color name="ds_bg_card">#F2F2F2</color>     <!-- raised surface (cards) -->
+    <color name="ds_bg_input">#F4F4F5</color>    <!-- form control surface -->
+    <color name="ds_bg_hover">#EAEAEA</color>    <!-- nested panel / hover -->
+    <color name="ds_border">#D4D4D8</color>      <!-- dividers / outlines -->
+    <color name="ds_text">#18181B</color>        <!-- primary text -->
+    <color name="ds_text_muted">#52525B</color>  <!-- secondary text -->
+    <color name="ds_text_subtle">#A1A1AA</color> <!-- tertiary / placeholder -->
+    <color name="ds_accent">#059669</color>      <!-- interactive / brand (emerald) -->
+    <color name="ds_accent_soft">#D1FAE5</color> <!-- light emerald tint for active states -->
+
+    <!-- Semantic feedback colors (used only by feedback surfaces: errors, log levels) -->
+    <color name="ds_success">#059669</color>
+    <color name="ds_warning">#B45309</color>
+    <color name="ds_danger">#DC2626</color>
+
+    <!-- =========================================================
+         Legacy SyncMesh names re-pointed to the tokens above so all
+         existing layouts, drawables and Java references keep resolving.
+         ========================================================= -->
+    <color name="syncmesh_primary">@color/ds_accent</color>
+    <color name="syncmesh_primary_container">@color/ds_accent_soft</color>
+    <color name="syncmesh_secondary">@color/ds_text_muted</color>
+    <color name="syncmesh_secondary_container">@color/ds_bg_hover</color>
+    <color name="syncmesh_success">@color/ds_success</color>
+    <color name="syncmesh_warning">@color/ds_warning</color>
+    <color name="syncmesh_error">@color/ds_danger</color>
+    <color name="syncmesh_background">@color/ds_bg</color>
+    <color name="syncmesh_surface">@color/ds_bg</color>
+    <color name="syncmesh_surface_variant">@color/ds_bg_card</color>
+    <color name="syncmesh_outline">@color/ds_border</color>
+    <color name="syncmesh_text">@color/ds_text</color>
+    <color name="syncmesh_text_secondary">@color/ds_text_muted</color>
+    <color name="syncmesh_text_inverse">@color/ds_bg</color>
+
+    <!-- Keyboard palette (used by bundled keyboard drawables) -->
     <color name="syncmesh_keyboard_surface">#0B1220</color>
     <color name="syncmesh_keyboard_panel">#131D31</color>
     <color name="syncmesh_keyboard_key">#1A263D</color>
@@ -21,4 +49,16 @@
     <color name="syncmesh_keyboard_border">#2F3D57</color>
     <color name="syncmesh_keyboard_text">#F8FAFC</color>
     <color name="syncmesh_keyboard_text_muted">#9FB0C9</color>
+
+    <!-- Phase 2 additions re-pointed to neutral tokens -->
+    <color name="syncmesh_success_container">@color/ds_bg_hover</color>
+    <color name="syncmesh_warning_container">@color/ds_bg_hover</color>
+    <color name="syncmesh_warning_soft">#FBF0DC</color>
+    <color name="syncmesh_error_container">@color/ds_bg_hover</color>
+    <color name="syncmesh_on_success">@color/ds_success</color>
+    <color name="syncmesh_on_warning">@color/ds_warning</color>
+    <color name="syncmesh_on_error_container">@color/ds_danger</color>
+    <color name="syncmesh_scrim">#66000000</color>
+    <color name="syncmesh_surface_container">@color/ds_bg_card</color>
+    <color name="syncmesh_shadow">#00000000</color>
 </resources>

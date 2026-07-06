@@ -3,8 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_debug"
-        android:icon="@android:drawable/ic_menu_info_details"
-        android:title="@string/tab_debug"
+        android:id="@+id/action_theme"
+        android:icon="@drawable/ic_theme"
+        android:title="@string/action_theme"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_debug"
+        android:icon="@drawable/ic_debug"
+        android:title="@string/tab_debug"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_tour"
+        android:title="@string/tour_replay"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_check_updates"
+        android:title="@string/action_check_updates"
+        app:showAsAction="never" />
 </menu>

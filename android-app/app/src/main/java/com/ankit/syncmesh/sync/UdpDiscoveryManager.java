@@ -36,9 +36,9 @@ public class UdpDiscoveryManager {
     private final ExecutorService listenExecutor = Executors.newSingleThreadExecutor();
     private final AtomicBoolean running = new AtomicBoolean(false);
 
-    private DatagramSocket broadcastSocket;
-    private DatagramSocket receiveSocket;
-    private WifiManager.MulticastLock multicastLock;
+    private volatile DatagramSocket broadcastSocket;
+    private volatile DatagramSocket receiveSocket;
+    private volatile WifiManager.MulticastLock multicastLock;
 
     public UdpDiscoveryManager(Context context, AnnouncementHandler announcementHandler) {
         this.appContext = context.getApplicationContext();

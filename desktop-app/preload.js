@@ -1,6 +1,7 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer, webUtils } = require('electron');
 
 contextBridge.exposeInMainWorld('syncMesh', {
+  platform: process.platform,
   getState: () => ipcRenderer.invoke('app:get-state'),
   startSync: () => ipcRenderer.invoke('sync:start'),
   stopSync: () => ipcRenderer.invoke('sync:stop'),
@@ -9,14 +10,42 @@ contextBridge.exposeInMainWorld('syncMesh', {
   removeDevice: (deviceId) => ipcRenderer.invoke('devices:remove', deviceId),
   listHistory: (limit) => ipcRenderer.invoke('history:list', limit),
   listLogs: () => ipcRenderer.invoke('logs:list'),
+  clearLogs: () => ipcRenderer.invoke('logs:clear'),
+  clearHistory: () => ipcRenderer.invoke('history:clear'),
+  clearTransferHistory: () => ipcRenderer.invoke('transfer:clear-history'),
+  setDebugUnlocked: (unlocked) => ipcRenderer.invoke('debug:set-unlocked', unlocked),
+  setTheme: (theme) => ipcRenderer.invoke('app:set-theme', theme),
   pairManual: (payload) => ipcRenderer.invoke('pair:manual', payload),
   acceptPairing: (payload) => ipcRenderer.invoke('pair:accept', payload),
   rejectPairing: (payload) => ipcRenderer.invoke('pair:reject', payload),
   listNearby: () => ipcRenderer.invoke('discovery:list'),
   sendCurrentClipboard: () => ipcRenderer.invoke('clipboard:send-current'),
+
+  // file transfer
+  pickTransferFiles: () => ipcRenderer.invoke('transfer:pick-files'),
+  sendTransfer: (payload) => ipcRenderer.invoke('transfer:send', payload),
+  respondTransfer: (payload) => ipcRenderer.invoke('transfer:respond', payload),
+  pauseTransfer: () => ipcRenderer.invoke('transfer:pause'),
+  resumeTransfer: () => ipcRenderer.invoke('transfer:resume'),
+  cancelTransfer: () => ipcRenderer.invoke('transfer:cancel'),
+  retryTransfer: () => ipcRenderer.invoke('transfer:retry'),
+  dismissTransfer: () => ipcRenderer.invoke('transfer:dismiss'),
+  getTransferState: () => ipcRenderer.invoke('transfer:state'),
+  listTransferHistory: (limit) => ipcRenderer.invoke('transfer:history', limit),
+  openTransferFolder: () => ipcRenderer.invoke('transfer:open-folder'),
+  chooseTransferFolder: () => ipcRenderer.invoke('transfer:choose-folder'),
+  resetTransferFolder: () => ipcRenderer.invoke('transfer:reset-folder'),
+  statTransferFiles: (filePaths) => ipcRenderer.invoke('transfer:stat-files', filePaths),
+  // Resolves a dropped DOM File to its absolute path (Electron 32+ removed File.path).
+  getPathForFile: (file) => webUtils.getPathForFile(file),
+
   onState: (callback) => ipcRenderer.on('state:update', (_event, payload) => callback(payload)),
   onLog: (callback) => ipcRenderer.on('log:new', (_event, payload) => callback(payload)),
   onPairRequest: (callback) => ipcRenderer.on('pair:request', (_event, payload) => callback(payload)),
   onHistory: (callback) => ipcRenderer.on('history:new', (_event, payload) => callback(payload)),
-  onNearby: (callback) => ipcRenderer.on('nearby:update', (_event, payload) => callback(payload))
+  onNearby: (callback) => ipcRenderer.on('nearby:update', (_event, payload) => callback(payload)),
+  onTransferState: (callback) => ipcRenderer.on('transfer:state', (_event, payload) => callback(payload)),
+  onTransferIncoming: (callback) => ipcRenderer.on('transfer:incoming', (_event, payload) => callback(payload)),
+  onTransferFinished: (callback) => ipcRenderer.on('transfer:finished', (_event, payload) => callback(payload)),
+  onDeviceUnpaired: (callback) => ipcRenderer.on('device:unpaired', (_event, payload) => callback(payload))
 });

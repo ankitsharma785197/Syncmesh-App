@@ -63,11 +63,17 @@ public class PairedDevicesFragment extends Fragment implements PairedDevicesAdap
 
     @Override
     public void onPingDevice(PairedDevice device) {
-        coordinator.pingDevice(device, (success, message) -> Toast.makeText(requireContext(),
-                success
-                        ? getString(R.string.toast_ping_success)
-                        : (message == null ? getString(R.string.toast_ping_failed) : message),
-                Toast.LENGTH_LONG).show());
+        coordinator.pingDevice(device, (success, message) -> {
+            // Ping completes asynchronously; the fragment may be detached by then.
+            if (!isAdded()) {
+                return;
+            }
+            Toast.makeText(requireContext(),
+                    success
+                            ? getString(R.string.toast_ping_success)
+                            : (message == null ? getString(R.string.toast_ping_failed) : message),
+                    Toast.LENGTH_LONG).show();
+        });
     }
 
     @Override
@@ -77,9 +83,8 @@ public class PairedDevicesFragment extends Fragment implements PairedDevicesAdap
                 .setMessage(R.string.dialog_remove_device_message)
                 .setNegativeButton(R.string.action_cancel, null)
                 .setPositiveButton(R.string.action_remove, (dialog, which) -> {
-                    repository.removePairedDevice(device.deviceId);
+                    coordinator.removePairedDeviceAndNotify(device);
                     Toast.makeText(requireContext(), R.string.toast_device_removed, Toast.LENGTH_SHORT).show();
-                    coordinator.refreshSnapshot();
                 })
                 .show();
     }
